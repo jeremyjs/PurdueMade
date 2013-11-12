@@ -22,10 +22,13 @@ if (Meteor.isClient) {
 if (Meteor.isServer) {
   Meteor.startup(function () {
     // code to run on server at startup
-    
+    Users.remove({});
     // Prepopulate users database
-    Users.insert({id: 1, name:"Joe", major:"Industrial Engineering", year: 2013, bio:"My name is Joe. I like to work on stuff.", interests: ["Apps", "Business Development"], projects: ["PGE"]});
-    Users.insert({id: 2, name:"Joe", major:"Industrial Engineering", year: 2013, bio:"My name is Joe. I like to work on stuff.", interests: ["Apps", "Business Development"], projects: ["PGE"]});
-    Users.insert({id: 3, name:"Joe", major:"Industrial Engineering", year: 2013, bio:"My name is Joe. I like to work on stuff.", interests: ["Apps", "Business Development"], projects: ["PGE"]});
+    Users.insert({id: 1, name:"Joe Johnson", major:"Industrial Engineering", year: 2013, bio:"My name is Joe. I like to work on stuff.", interests: ["Apps", "Business Development"], projects: ["PGE"]});
+    Users.insert({id: 2, name:"Joe Johnson", major:"Industrial Engineering", year: 2013, bio:"My name is Joe. I like to work on stuff.", interests: ["Apps", "Business Development"], projects: ["PGE"]});
+    Users.insert({id: 3, name:"Joe Johnson", major:"Industrial Engineering", year: 2013, bio:"My name is Joe. I like to work on stuff.", interests: ["Apps", "Business Development"], projects: ["PGE"]});
+    Users.insert({id: 4, name:"Joe Johnson", major:"Industrial Engineering", year: 2013, bio:"My name is Joe. I like to work on stuff.", interests: ["Apps", "Business Development"], projects: ["PGE"]});
   });
+
+
 }
