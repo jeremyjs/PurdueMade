@@ -1,18 +1,29 @@
 <head>
   <title>PurdueMade</title>
-</head>
 
+  <link rel="stylesheet" href="css/bootstrap.css">
+  <link rel="stylesheet" href="css/bootstrap-responsive.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
 <body>
-  {{> navbar}}
-  {{> jumbo}}
-  <div class="container">
-    {{> profilesView}}
-    {{> footer}}
-  </div>
 </body>
 
+<template name="layout">
+  <header>
+    {{> navbar}}
+  </header>
+  {{yield}}
+  {{> footer}}
+</template>
+
+<template name="home">
+  {{> jumbo}}
+  {{> homeProjects}}
+  {{> homePeople}}
+</template>
+
 <template name="navbar">
-  <div class="navbar navbar-inverse navbar-fixed-top">
+<!--   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">PurdueMade</a>
@@ -33,22 +44,61 @@
         </form>
       </div>
     </div> <!-- container -->
-  </div>
+  <!-- </div> -->
+
+  <!--start: navbar -->
+  <div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <a data-toggle="collapse" data-target=".nav-collapse" class="btn btn-navbar">
+          <span><i class="icon-reorder"></i></span>
+        </a>
+        <a class="btn btn-navbar" href="sign-in.html"><i class="icon-signin"></i></a>
+        <a class="btn btn-navbar" href="tel:3669"><i class="icon-phone"></i></a>
+        <a class="btn btn-navbar" href="http://goo.gl/maps/cpLMo"><i class="icon-map-marker"></i></a>
+
+        <a class="brand" href="/"><span><i class="icon-stop"></i></span>PurdueMade</a>
+
+        <div id="top-navigation" class="nav-collapse subnav-collapse collapse ">
+          <ul class="nav pull-right">
+            
+            
+
+            <li class="top-account visible-desktop"><a id="peopleButton" class="top-sign-in" href="/people">People</a></li>
+            
+            <li class="top-account visible-desktop"><a id="projectsButton" class="top-sign-in" href="/projects">Projects</a></li>
+          </ul>
+        </div>  
+    
+      </div>
+    </div>
+  </div><!--end: navbar -->
 </template>
 
 <template name="jumbo">
-  <div class="jumbotron">
+<!--   <div class="jumbotron">
     <div class="container">
       <h1>PurdueMade</h1>
       <p style="padding-left:3px">PurdueMade is <i><b>the</b></i> social network for connecting you with other Purdue students who have a passion for creating.</p>
       <br/>
       <p style="text-align:center"><a class="btn btn-primary btn-lg">Sign up now!</a></p>
     </div>
-  </div>
+  </div> -->
+
+  <!-- start: title -->
+  <div class="page-title1">
+    <div class="section-wrapper">
+      <div class="container">
+        <h2>PurdueMade is <em>THE</em> community for entrepreneurs at Purdue</h2>
+        <h3>Join the community through LinkedIn</h3>  
+        <a class="btn btn-color2" href="sign-up.html">Sign Up Now!</a>
+      </div>
+    </div>
+  </div><!-- end: title -->
 </template>
 
-<template name="profilesView">
-  <div class="row">
+<template name="homeProjects">
+<!--   <div class="row">
     {{#each people}}
       <div class="col-sm-4">
         <div class="media">
@@ -69,11 +119,349 @@
       </div>
     {{/each}}
   </div> <!-- row -->
+
+  <!-- start: lastest-work -->
+  <div class="section-wrapper lastest-work">
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <div class="separator">
+            <div class="left">
+              <div class="lines">
+                <div>
+                <h2 class="lines-title">Featured Projects</h2>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+        <div class="span3">
+          <div class="white-content">
+            <div class="img-mask hover-mask">
+              <img src="images/photos/app-2.png" alt="Photo-Work-1">
+              <div class="flip-container">
+                <div class="flipper">
+                  <div class="back">
+                    <div class="flip-b">
+                      <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
+            </div>              
+            <a href="#"><h5>Home Office<span class="white-title"><i class="icon-plus"></i></span></h5></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>
+          </div>
+        </div>
+        <div class="span3">
+          <div class="white-content">
+            <div class="img-mask hover-mask">
+              <img src="images/photos/app-1.png" alt="Photo-Work-2">
+              <div class="flip-container">
+                <div class="flipper">
+                  <div class="back">
+                    <div class="flip-b">
+                      <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>              
+              <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
+            </div>
+            <a href="#"><h5>Cloudware <span class="white-title"><i class="icon-plus"></i></span></h5></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>            
+          </div>
+        </div>
+        <div class="span3">
+          <div class="white-content">
+            <div class="img-mask hover-mask">
+              <img src="images/photos/app-3.png" alt="Photo-Work-3">
+              <div class="flip-container">
+                <div class="flipper">
+                  <div class="back">
+                    <div class="flip-b">
+                      <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>              
+              <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
+            </div>
+            <a href="#"><h5>Prolift <span class="white-title"><i class="icon-plus"></i></span></h5></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>            
+          </div>
+        </div>
+        <div class="span3">
+          <div class="white-content">
+            <div class="img-mask hover-mask">
+              <img src="images/photos/app-4.png" alt="Photo-Work-4">
+              <div class="flip-container">
+                <div class="flipper">
+                  <div class="back">
+                    <div class="flip-b">
+                      <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>              
+              <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
+            </div>
+            <a href="#"><h5>FruitOrama <span class="white-title"><i class="icon-plus"></i></span></h5></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>            
+          </div>
+        </div>            
+      </div>
+    </div>
+  </div><!-- end: lastest-work -->
+
+</template>
+
+<template name="homePeople">
+  <!-- start: lastest-work -->
+  <div class="section-wrapper lastest-work">
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <div class="separator">
+            <div class="left">
+              <div class="lines">
+                <div>
+                <h2 class="lines-title">Featured People</h2>
+                </div>
+              </div>
+            </div>
+          </div>  
+        </div>
+        <div class="span3">
+          <div class="white-content">
+            <div class="img-mask hover-mask">
+              <img src="images/photos/team-1.jpg" alt="Photo-Work-1">
+              <div class="flip-container">
+                <div class="flipper">
+                  <div class="back">
+                    <div class="flip-b">
+                      <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
+            </div>              
+            <a href="#"><h5>Chris MacPherson<span class="white-title"><i class="icon-plus"></i></span></h5></a>
+            <a href="#"><h5>Finance | 2014<span class="white-title"></span></h5></a>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>
+          </div>
+        </div>
+        <div class="span3">
+          <div class="white-content">
+            <div class="img-mask hover-mask">
+              <img src="images/photos/team-2.png" alt="Photo-Work-2">
+              <div class="flip-container">
+                <div class="flipper">
+                  <div class="back">
+                    <div class="flip-b">
+                      <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>              
+              <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
+            </div>
+            <a href="#"><h5>Andrew Linfoot<span class="white-title"><i class="icon-plus"></i></span></h5></a>
+            <a href="#"><h5>Industrial Engineering | 2014<span class="white-title"></span></h5></a>     
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>      
+          </div>
+        </div>
+        <div class="span3">
+          <div class="white-content">
+            <div class="img-mask hover-mask">
+              <img src="images/photos/team-3.png" alt="Photo-Work-3">
+              <div class="flip-container">
+                <div class="flipper">
+                  <div class="back">
+                    <div class="flip-b">
+                      <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>              
+              <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
+            </div>
+            <a href="#"><h5>Jeremy Meyer<span class="white-title"><i class="icon-plus"></i></span></h5></a>
+            <a href="#"><h5>Computer Science | 2015<span class="white-title"></span></h5></a> 
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>            
+          </div>
+        </div>
+        <div class="span3">
+          <div class="white-content">
+            <div class="img-mask hover-mask">
+              <img src="images/photos/team-4.png" alt="Photo-Work-4">
+              <div class="flip-container">
+                <div class="flipper">
+                  <div class="back">
+                    <div class="flip-b">
+                      <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                    </div>
+                  </div>
+                </div>
+              </div>              
+              <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
+            </div>
+            <a href="#"><h5>Steve Webster<span class="white-title"><i class="icon-plus"></i></span></h5></a>
+            <a href="#"><h5>Sales Management | 2016<span class="white-title"></span></h5></a> 
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>            
+          </div>
+        </div>            
+      </div>
+    </div>
+  </div><!-- end: lastest-work -->
+</template>
+
+<template name="people">
+
+  <!-- start: title -->
+  <div class="page-title">
+    <div class="section-wrapper">
+      <div class="container">
+        <h2>PEOPLE</h2>
+      </div>
+    </div>
+  </div><!-- end: title -->
+
+
+  <!-- start: portfolio -->
+  <div class="section-portfolio">
+
+    <div class="select-portfolio">
+      <div class="container">
+        <div class="row">
+          <div class="span12">  
+
+            <div id="options">
+                <ul id="filters" class="option-set" data-option-key="filter">
+                  <li><a class="btn btn-color tag " href="#filter" data-option-value="*" class="selected">All</a></li>
+                  <li><a class="btn btn-color tag " href="#filter" data-option-value=".Software">Software</a></li>
+                  <li><a class="btn btn-color tag " href="#filter" data-option-value=".Design">Design</a></li>
+                  <li><a class="btn btn-color tag " href="#filter" data-option-value=".Business">Business</a></li>
+                </ul>
+              </div>
+
+          </div>
+        </div>
+      </div>
+    </div>  
+
+    <div class="container">
+      <div class="row">
+        <div class="span12">              
+
+          <!--start: container -->
+          <div class="clearfix isotope" id="container">
+            {{#each people}}
+              <div class="element {{interest}}">
+                <div class="thumbs">
+                  <a href="/people/{{id}}" class="picture">
+                    <img class="white-content" alt="content" src="images/photos/team-{{id}}.png">
+                    <span><i class="icon-plus-sign"></i></span>
+                  </a>
+                </div>
+              </div>
+            {{/each}}
+              
+          </div><!--end: container -->
+        
+        </div>  
+      </div>
+    </div>
+      
+  </div><!-- end: portfolio-->
+
+</template>
+
+<template name="projects">
+
+<!-- start: title -->
+<div class="page-title">
+  <div class="section-wrapper">
+    <div class="container">
+      <h2>PROJECTS</h2>
+    </div>
+  </div>
+</div><!-- end: title -->
+
+
+<!-- start: portfolio -->
+<div class="section-portfolio">
+
+  <div class="select-portfolio">
+    <div class="container">
+      <div class="row">
+        <div class="span12">  
+
+          <div id="options">
+              <ul id="filters" class="option-set" data-option-key="filter">
+                <li><a class="btn btn-color tag " href="#filter" data-option-value="*" class="selected">All</a></li>
+                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Software">Software</a></li>
+                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Design">Design</a></li>
+                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Business">Business</a></li>
+              </ul>
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </div>  
+
+  <div class="container">
+    <div class="row">
+      <div class="span12">              
+
+        <!--start: container -->
+        <div class="clearfix isotope" id="container">
+          {{#each projects}}
+            <div class="element {{type}}">
+            <div class="thumbs">
+              <a href="portfolio-item.html" class="picture">
+                <img class="white-content" alt="content" src="images/photos/app-{{id}}.png">
+                <span><i class="icon-plus-sign"></i></span>
+              </a>
+              </div>
+            </div>
+          {{/each}}
+        </div><!--end: container -->
+      
+      </div>  
+    </div>
+  </div>
+    
+</div><!-- end: portfolio-->
+
 </template>
 
 <template name="footer">
-      <hr>
+<!--       <hr>
       <footer>
         <p>&copy; PurdueMade 2013</p>
-      </footer>
+      </footer> -->
+
+  <!-- start: footer -->
+  <footer>
+    <div class="post-footer">
+      <div class="container">
+        <div class="row">
+            <div class="span6">
+              <div class="copyright">Copyright &copy; 2013 PurdueMade. All rights reserved.</div>
+            </div>
+            <div class="span6">
+              <ul class="footer-links">
+                <li>
+                  <a href="contact.html">Contact</a>
+                </li>
+              </ul>
+            </div>
+        </div>
+      </div>
+    </div>
+  </footer><!-- end: footer -->
 </template>
