@@ -1,9 +1,15 @@
 <head>
   <title>PurdueMade</title>
 
-  <link rel="stylesheet" href="css/bootstrap.css">
-  <link rel="stylesheet" href="css/bootstrap-responsive.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+  <link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css">
+  <link type="text/css" rel="stylesheet" href="css/style.css">
+
+  <script type="text/javascript" src="http://platform.linkedin.com/in.js">
+    api_key: 774knwz4aoj84b
+    onLoad: onLinkedInLoad
+    authorize: true
+  </script>
 </head>
 <body>
 </body>
@@ -90,8 +96,9 @@
     <div class="section-wrapper">
       <div class="container">
         <h2>PurdueMade is <em>THE</em> community for entrepreneurs at Purdue</h2>
-        <h3>Join the community through LinkedIn</h3>  
-        <a class="btn btn-color2" href="sign-up.html">Sign Up Now!</a>
+        <h3>Join the community through LinkedIn</h3>
+        <script type="in/Login">
+        </script>
       </div>
     </div>
   </div><!-- end: title -->
@@ -318,6 +325,14 @@
   </div><!-- end: lastest-work -->
 </template>
 
+<template name="feed">
+  <div class="container">
+    <div id="feed">
+
+    </div>
+  </div>
+</template>
+
 <template name="people">
 
   <!-- start: title -->
@@ -357,12 +372,12 @@
         <div class="span12">              
 
           <!--start: container -->
-          <div class="clearfix isotope" id="container">
+          <div class="clearfix" id="container">
             {{#each people}}
               <div class="element {{interest}}">
                 <div class="thumbs">
                   <a href="/people/{{id}}" class="picture">
-                    <img class="white-content" alt="content" src="images/photos/team-{{id}}.png">
+                    <img class="white-content" alt="content" src="{{pictureUrl}}">
                     <span><i class="icon-plus-sign"></i></span>
                   </a>
                 </div>
