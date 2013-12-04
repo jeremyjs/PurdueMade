@@ -46,6 +46,13 @@ if (Meteor.isClient) {
     });
   });
 
+  Template.homePeople.people = function(){
+    return People.find({id: {$lte: 4}}, {limit: 4});
+  };
+  Template.homeProjects.projects = function(){
+    return Projects.find({}, {limit: 4});
+  };
+
   Template.people.people = function(){
     return People.find();
   };
@@ -125,10 +132,11 @@ if (Meteor.isServer) {
     
     // Prepopulate projects database
     Projects.remove({});
-    Projects.insert({id: 1, name:'Cloudware', type: 'Software'});
-    Projects.insert({id: 2, name:'HomeOffice', type: 'Business'});
-    Projects.insert({id: 3, name:'FruitOrama', type: 'Design'});
-    Projects.insert({id: 4, name:'Prolift', type: 'Business'});
+    Projects.insert({id: 1, name: 'Cloudware', type: 'Software', pictureUrl: 'images/projects/app-1.png',
+                     description: ''});
+    Projects.insert({id: 2, name: 'HomeOffice', type: 'Business', pictureUrl: 'images/projects/app-2.png'});
+    Projects.insert({id: 3, name: 'FruitOrama', type: 'Design', pictureUrl: 'images/projects/app-3.png'});
+    Projects.insert({id: 4, name: 'Prolift', type: 'Business', pictureUrl: 'images/projects/app-4.png'});
   
   });
 }
