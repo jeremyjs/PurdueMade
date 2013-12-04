@@ -14,6 +14,12 @@
 <body>
 </body>
 
+<!-- TODO: Fix navbar -->
+<!-- TODO: Fix footer -->
+<!-- TODO: Fix isotope for people and projects -->
+<!-- TODO: Add project page mockup -->
+<!-- TODO: Add feed for fronpage -->
+
 <template name="layout">
   <header>
     {{> navbar}}
@@ -28,8 +34,9 @@
   {{> homePeople}}
 </template>
 
+
 <template name="navbar">
-<!--   <div class="navbar navbar-inverse navbar-fixed-top">
+  <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" href="#">PurdueMade</a>
@@ -50,9 +57,9 @@
         </form>
       </div>
     </div> <!-- container -->
-  <!-- </div> -->
+  </div>
 
-  <!--start: navbar -->
+  <!-- start: navbar -->
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
@@ -79,6 +86,7 @@
       </div>
     </div>
   </div><!--end: navbar -->
+
 </template>
 
 <template name="jumbo">
@@ -394,63 +402,67 @@
 
 </template>
 
+<template name="project">
+  <!-- Add project page mockup -->
+</template>
+
 <template name="projects">
 
-<!-- start: title -->
-<div class="page-title">
-  <div class="section-wrapper">
-    <div class="container">
-      <h2>PROJECTS</h2>
-    </div>
-  </div>
-</div><!-- end: title -->
-
-
-<!-- start: portfolio -->
-<div class="section-portfolio">
-
-  <div class="select-portfolio">
-    <div class="container">
-      <div class="row">
-        <div class="span12">  
-
-          <div id="options">
-              <ul id="filters" class="option-set" data-option-key="filter">
-                <li><a class="btn btn-color tag " href="#filter" data-option-value="*" class="selected">All</a></li>
-                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Software">Software</a></li>
-                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Design">Design</a></li>
-                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Business">Business</a></li>
-              </ul>
-            </div>
-
-        </div>
+  <!-- start: title -->
+  <div class="page-title">
+    <div class="section-wrapper">
+      <div class="container">
+        <h2>PROJECTS</h2>
       </div>
     </div>
-  </div>  
+  </div><!-- end: title -->
 
-  <div class="container">
-    <div class="row">
-      <div class="span12">              
 
-        <!--start: container -->
-        <div class="clearfix isotope" id="container">
-          {{#each projects}}
-            <div class="element {{type}}">
-            <div class="thumbs">
-              <a href="portfolio-item.html" class="picture">
-                <img class="white-content" alt="content" src="images/photos/app-{{id}}.png">
-                <span><i class="icon-plus-sign"></i></span>
-              </a>
+  <!-- start: portfolio -->
+  <div class="section-portfolio">
+
+    <div class="select-portfolio">
+      <div class="container">
+        <div class="row">
+          <div class="span12">  
+
+            <div id="options">
+                <ul id="filters" class="option-set" data-option-key="filter">
+                  <li><a class="btn btn-color tag " href="#filter" data-option-value="*" class="selected">All</a></li>
+                  <li><a class="btn btn-color tag " href="#filter" data-option-value=".Software">Software</a></li>
+                  <li><a class="btn btn-color tag " href="#filter" data-option-value=".Design">Design</a></li>
+                  <li><a class="btn btn-color tag " href="#filter" data-option-value=".Business">Business</a></li>
+                </ul>
               </div>
-            </div>
-          {{/each}}
-        </div><!--end: container -->
-      
-      </div>  
+
+          </div>
+        </div>
+      </div>
+    </div>  
+
+    <div class="container">
+      <div class="row">
+        <div class="span12">              
+
+          <!--start: container -->
+          <div class="clearfix isotope" id="container">
+            {{#each projects}}
+              <div class="element {{type}}">
+              <div class="thumbs">
+                <a href="portfolio-item.html" class="picture">
+                  <img class="white-content" alt="content" src="images/photos/app-{{id}}.png">
+                  <span><i class="icon-plus-sign"></i></span>
+                </a>
+                </div>
+              </div>
+            {{/each}}
+          </div><!--end: container -->
+        
+        </div>  
+      </div>
     </div>
-  </div>
-    
-</div><!-- end: portfolio-->
+      
+  </div><!-- end: portfolio-->
 
 </template>
 

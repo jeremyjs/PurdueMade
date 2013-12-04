@@ -42,7 +42,7 @@ if (Meteor.isClient) {
     });
     this.route('project', {
       path: '/projects/:id',
-      template: 'person'
+      template: 'project'
     });
   });
 
