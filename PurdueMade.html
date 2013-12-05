@@ -28,30 +28,24 @@
   {{> footer}}
 </template>
 
-<template name="navbar">
-  <div class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#">PurdueMade</a>
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-      </div>
-      <div class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <li class="active"><a href="#">People</a></li>
-          <li><a href="projects">Projects</a></li>
-        </ul>
-        <form class="navbar-form navbar-right">
-          <button class="btn btn-success">Sign in</button>
-        </form>
-      </div>
-    </div> <!-- container -->
+<template name="loginModal">
+  <!-- <a href="#myModal" data-toggle="modal"></a> -->
+  <!-- Modal -->
+  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">Sign in with LinkedIn to see more content</h3>
+    </div>
+    <div class="modal-footer">
+      <span><button class="btn btn-mini btn-modal-1" data-dismiss="modal" aria-hidden="true">Close</button></span>
+      <span id="loginButton">
+          <script type="in/Login"></script>
+      </span>
+    </div>
   </div>
+</template>
 
+<template name="navbar">
   <!-- start: navbar -->
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
@@ -59,27 +53,22 @@
         <a data-toggle="collapse" data-target=".nav-collapse" class="btn btn-navbar">
           <span><i class="icon-reorder"></i></span>
         </a>
-        <a class="btn btn-navbar" href="sign-in.html"><i class="icon-signin"></i></a>
-        <a class="btn btn-navbar" href="tel:3669"><i class="icon-phone"></i></a>
-        <a class="btn btn-navbar" href="http://goo.gl/maps/cpLMo"><i class="icon-map-marker"></i></a>
-
         <a class="brand" href="/"><span><i class="icon-stop"></i></span>PurdueMade</a>
-
         <div id="top-navigation" class="nav-collapse subnav-collapse collapse ">
           <ul class="nav pull-right">
-            
-            
-
-            <li class="top-account visible-desktop"><a id="peopleButton" class="top-sign-in" href="/people">People</a></li>
-            
-            <li class="top-account visible-desktop"><a id="projectsButton" class="top-sign-in" href="/projects">Projects</a></li>
+            {{#if loggedIn}}
+              <li class="top-account visible-desktop"><a id="peopleButton" class="top-sign-in" href="/people">People</a></li>
+              <li class="top-account visible-desktop"><a id="projectsButton" class="top-sign-in" href="/projects">Projects</a></li>
+            {{else}}
+              <li class="top-account visible-desktop"><a id="peopleButton" class="top-sign-in" href="#myModal" data-toggle="modal">People</a></li>
+              <li class="top-account visible-desktop"><a id="projectsButton" class="top-sign-in" href="#myModal" data-toggle="modal">Projects</a></li>
+            {{/if}}
           </ul>
-        </div>  
-    
+        </div>
       </div>
     </div>
   </div><!--end: navbar -->
-
+  {{> loginModal}}
 </template>
 
 <template name="home">
@@ -95,8 +84,9 @@
       <div class="container">
         <h2>PurdueMade is <em>THE</em> community for entrepreneurs at Purdue</h2>
         <h3>Join the community through LinkedIn</h3>
-        <script type="in/Login">
-        </script>
+        <div id="loginButton">
+          <script type="in/Login"></script>
+        </div>
       </div>
     </div>
   </div><!-- end: title -->
@@ -122,19 +112,23 @@
           <div class="span3">
             <div class="white-content">
               <div class="img-mask hover-mask">
-                <img src="{{pictureUrl}}" alt="Photo-{{name}}">
+                <img src="{{pictureUrl}}">
                 <div class="flip-container">
                   <div class="flipper">
                     <div class="back">
                       <div class="flip-b">
-                        <a href="/projects/{{id}}"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                        <a href="#myModal" data-toggle="modal">
+                          <span class="icon-back"><i class="icon-plus-sign"></i></span>
+                        </a>
                       </div>
                     </div>
                   </div>
                 </div>
                 <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
               </div>              
-              <a href="/projects/{{id}}"><h5>{{name}}<span class="white-title"><i class="icon-plus"></i></span></h5></a>
+              <a href="#myModal" data-toggle="modal">
+                <h5>{{name}}<span class="white-title"><i class="icon-plus"></i></span></h5>
+              </a>
               <p>{{description}}</p>
             </div>
           </div>
@@ -142,7 +136,7 @@
       </div>
     </div>
   </div><!-- end: lastest-work -->
-
+  {{> loginModal}}
 </template>
 
 <template name="homePeople">
@@ -165,20 +159,26 @@
           <div class="span3">
             <div class="white-content">
               <div class="img-mask hover-mask">
-                <img src="{{pictureUrl}}" alt="Photo-{{name}}">
+                <img src="{{pictureUrl}}">
                 <div class="flip-container">
                   <div class="flipper">
                     <div class="back">
                       <div class="flip-b">
-                        <a href="/people/{{id}}"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
+                        <a href="#myModal" data-toggle="modal">
+                          <span class="icon-back"><i class="icon-plus-sign"></i></span>
+                        </a>
                       </div>
                     </div>
                   </div>
                 </div>
                 <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
               </div>              
-              <a href="/people/{{id}}"><h5>{{name}}<span class="white-title"><i class="icon-plus"></i></span></h5></a>
-              <a href="/people/{{id}}"><h5>{{major}} | {{year}}<span class="white-title"></span></h5></a>
+              <a href="#myModal" data-toggle="modal">
+                <h5>{{firstName}} {{lastName}}<span class="white-title"><i class="icon-plus"></i></span></h5>
+              </a>
+              <a href="#myModal" data-toggle="modal">
+                <h5>{{major}} | {{year}}<span class="white-title"></span></h5>
+              </a>
               <p>{{bio}}</p>
             </div>
           </div>
@@ -186,10 +186,7 @@
       </div>
     </div>
   </div><!-- end: lastest-work -->
-</template>
-
-<template name="signup">
-
+  {{> loginModal}}
 </template>
 
 <template name="feed">
@@ -206,7 +203,7 @@
                 </a>
                 <div class="media-body">
                   {{#if isPerson}}
-                    <h4 class="media-heading">{{name}} Recently Joined PurdueMade</h4>
+                    <h4 class="media-heading">{{firstName}} {{lastName}} Recently Joined PurdueMade</h4>
                     <p>
                       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, vero soluta deleniti in dicta ipsa rem optio doloribus ipsam cumque! Sint, reiciendis, voluptatem nulla similique molestias et nesciunt fugit distinctio.
                     </p>
@@ -813,7 +810,7 @@
                   </div>
                   <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
                 </div>              
-                <a href="/people/{{id}}"><h5>{{name}}<span class="white-title"><i class="icon-plus"></i></span></h5></a>
+                <a href="/people/{{id}}"><h5>{{firstName}} {{lastName}}<span class="white-title"><i class="icon-plus"></i></span></h5></a>
                 <a href="/people/{{id}}"><h5>{{major}} | {{year}}<span class="white-title"></span></h5></a>
                 <p>{{bio}}</p>
               </div>
