@@ -1,6 +1,7 @@
 
 People = new Meteor.Collection('people');
 Projects = new Meteor.Collection('projects');
+Feed = new Meteor.Collection('feed');
 
 if (Meteor.isClient) {
   Meteor.startup(function(){
@@ -15,6 +16,9 @@ if (Meteor.isClient) {
   Router.map(function () {
     this.route('home', {
       path: '/'
+    });
+    this.route('feed', {
+      path: '/feed'
     });
     this.route('people', {
       path: '/people'
@@ -44,6 +48,28 @@ if (Meteor.isClient) {
   };
   Template.homeProjects.projects = function(){
     return Projects.find({}, {limit: 4});
+  };
+
+  Template.feed.feed = function(){
+    // Clear feed
+    Meteor.call('clearFeed');
+
+    // Insert recent people
+    People.find().forEach(function(person){
+      // Can this be done better?
+      person.isPerson = true;
+      Meteor.call('insertFeedItem', person);
+    });
+
+    // Insert recent projects
+    Projects.find().forEach(function(project){
+      // Can this be done better?
+      project.isPerson = false;
+      Meteor.call('insertFeedItem', project);
+    });
+
+    // Return feed items by recency
+    return Feed.find({}, {sort: [['created', 'desc']], limit: 6});
   };
 
   Template.person.person = function(){
@@ -106,6 +132,16 @@ if (Meteor.isClient) {
 }
 
 if (Meteor.isServer) {
+
+  Meteor.methods({
+    clearFeed : function() {
+      Feed.remove({});
+    },
+    insertFeedItem : function(item) {
+      Feed.insert(item);
+    }
+  });
+
   Meteor.startup(function () {
     // code to run on server at startup
 
@@ -125,18 +161,87 @@ if (Meteor.isServer) {
     
     // Prepopulate users database
     People.remove({});
-    People.insert({id: 1, name:'Chris MacPherson', major:'Finance', year: 2014, bio:'Chris raised his first round of investment capital when he was nineteen. He is a wizard with a spreadsheet and understands how to make sure money is always flowing to the right place. He happens to be a kick ass graphic designer and has designed products that have grossed thousands in sales.', interest: 'Design', projects: ['Cloudware'], pictureUrl: "images/photos/team-1.png"});
-    People.insert({id: 2, name:'Andrew Linfoot', major:'Industrial Engineering', year: 2014, bio:'A passionate entrepreneur, Andrew has experience building businesses in industries spanning everything from biotech to energy supplements to software development. He can do a little bit of everything but nothing that well, hence why he surrounds himself by those who are the best at what they do.', interest: 'Business Software', projects: ['Cloudware'], pictureUrl: "images/photos/team-2.png"});
-    People.insert({id: 3, name:'Jeremy Meyer', major:'Computer Science', year: 2015, bio:'Jeremy has been programming since he was 14 years old. He has a passion for developing quality software and has experience ranging from database design to front-end user experience and everything in between.', interest: 'Software', projects: ['Cloudware'], pictureUrl: "images/photos/team-3.png"});
-    People.insert({id: 4, name:'Steve Webster', major:'Sales Management', year: 2016, bio:'Steve has a vast array of experience from serving on Hobart College’s budget committee to doing a stint as a production manager for the Wendy WIlliams Show. He has a passion for music and can shred on guitar.', interest: 'Business', projects: ['Cloudware'], pictureUrl: "images/photos/team-4.png"});
+
+    People.insert({
+      id: 1,
+			name:'Chris MacPherson',
+			major:'Finance',
+			year: 2014,
+			bio:'Chris raised his first round of investment capital when he was nineteen. He is a wizard with a spreadsheet and understands how to make sure money is always flowing to the right place. He happens to be a kick ass graphic designer and has designed products that have grossed thousands in sales.',
+			interest: 'Design',
+			projects: ['Cloudware'],
+			pictureUrl: 'images/photos/team-1.png',
+      created: '2011-12-04'
+    });
+    People.insert({
+			id: 2,
+			name:'Andrew Linfoot',
+			major:'Industrial Engineering',
+			year: 2014,
+			bio:'A passionate entrepreneur, Andrew has experience building businesses in industries spanning everything from biotech to energy supplements to software development. He can do a little bit of everything but nothing that well, hence why he surrounds himself by those who are the best at what they do.',
+			interest: 'Business Software',
+			projects: ['Cloudware'],
+			pictureUrl: 'images/photos/team-2.png',
+      created: '2012-04-13'
+    });
+    People.insert({
+			id: 3,
+			name:'Jeremy Meyer',
+			major:'Computer Science',
+			year: 2015,
+			bio:'Jeremy has been programming since he was 14 years old. He has a passion for developing quality software and has experience ranging from database design to front-end user experience and everything in between.',
+			interest: 'Software',
+			projects: ['Cloudware'],
+			pictureUrl: 'images/photos/team-3.png',
+      created: '2012-12-04'
+    });
+    People.insert({
+			id: 4,
+			name:'Steve Webster',
+			major:'Sales Management',
+			year: 2016,
+			bio:'Steve has a vast array of experience from serving on Hobart College’s budget committee to doing a stint as a production manager for the Wendy WIlliams Show. He has a passion for music and can shred on guitar.',
+			interest: 'Business',
+			projects: ['Cloudware'],
+			pictureUrl: 'images/photos/team-4.png',
+      created: '2013-12-02'
+    });
     
     // Prepopulate projects database
     Projects.remove({});
-    Projects.insert({id: 1, name: 'Cloudware', type: 'Software', pictureUrl: 'images/projects/app-1.png',
-                     description: ''});
-    Projects.insert({id: 2, name: 'HomeOffice', type: 'Business', pictureUrl: 'images/projects/app-2.png'});
-    Projects.insert({id: 3, name: 'FruitOrama', type: 'Design', pictureUrl: 'images/projects/app-3.png'});
-    Projects.insert({id: 4, name: 'Prolift', type: 'Business', pictureUrl: 'images/projects/app-4.png'});
+
+    Projects.insert({
+			id: 1,
+			name: 'Cloudware',
+			type: 'Software',
+			pictureUrl: 'images/projects/app-1.png',
+      description: '',
+      created: '2013-10-28'
+    });
+    Projects.insert({
+			id: 2,
+			name: 'HomeOffice',
+			type: 'Business',
+			pictureUrl: 'images/projects/app-2.png',
+      description: '',
+      created: '2012-12-04'
+    });
+    Projects.insert({
+			id: 3,
+			name: 'FruitOrama',
+			type: 'Design',
+			pictureUrl: 'images/projects/app-3.png',
+      description: '',
+      created: '2013-05-21'
+    });
+    Projects.insert({
+			id: 4,
+			name: 'Prolift',
+			type: 'Business',
+			pictureUrl: 'images/projects/app-4.png',
+      description: '',
+      created: '2013-12-04'
+    });
   
   });
 }

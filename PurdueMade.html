@@ -28,13 +28,6 @@
   {{> footer}}
 </template>
 
-<template name="home">
-  {{> jumbo}}
-  {{> homeProjects}}
-  {{> homePeople}}
-</template>
-
-
 <template name="navbar">
   <div class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
@@ -87,6 +80,12 @@
     </div>
   </div><!--end: navbar -->
 
+</template>
+
+<template name="home">
+  {{> jumbo}}
+  {{> homeProjects}}
+  {{> homePeople}}
 </template>
 
 <template name="jumbo">
@@ -222,10 +221,40 @@
 
 <template name="feed">
   <div class="container">
-    <div id="feed">
-
+    <div class="row">
+      <div class="span8 offset2">
+        <div id="feed">
+          <h2 class="pagination-centered"> Recent Activity </h2>
+          <ul class="media-list">
+            {{#each feed}}
+              <li class="media">
+                <a class="pull-left" href="#">
+                  <img class="media-object" src="{{pictureUrl}}" width="64px">
+                </a>
+                <div class="media-body">
+                  {{#if isPerson}}
+                    <h4 class="media-heading">{{name}} Recently Joined PurdueMade</h4>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, vero soluta deleniti in dicta ipsa rem optio doloribus ipsam cumque! Sint, reiciendis, voluptatem nulla similique molestias et nesciunt fugit distinctio.
+                    </p>
+                  {{else}}
+                    <h4 class="media-heading">{{name}} Was Recently Added to PurdueMade</h4>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, vero soluta deleniti in dicta ipsa rem optio doloribus ipsam cumque! Sint, reiciendis, voluptatem nulla similique molestias et nesciunt fugit distinctio.
+                    </p>
+                  {{/if}}
+                </div>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
     </div>
   </div>
+</template>
+
+<template name="person">
+
 </template>
 
 <template name="people">
@@ -289,10 +318,6 @@
 
 </template>
 
-<template name="project">
-  <!-- Add project page mockup -->
-</template>
-
 <template name="projects">
 
   <!-- start: title -->
@@ -351,6 +376,10 @@
       
   </div><!-- end: portfolio-->
 
+</template>
+
+<template name="project">
+  <!-- Add project page mockup -->
 </template>
 
 <template name="footer">
