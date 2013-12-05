@@ -2,6 +2,9 @@
 People = new Meteor.Collection('people');
 Projects = new Meteor.Collection('projects');
 Feed = new Meteor.Collection('feed');
+Skills = new Meteor.Collection('skills');
+Interests = new Meteor.Collection('interests');
+PersonProjects = new Meteor.Collection('personProjects');
 Pictures = new Meteor.Collection('pictures');
 
 if (Meteor.isClient) {
@@ -88,6 +91,25 @@ if (Meteor.isClient) {
   Template.person.person = function(){
     return People.findOne({id: Session.get('profileId')});
   };
+  Template.person.skills = function(){
+    Meteor.call('clearSkills');
+    person = People.findOne({id: Session.get('profileId')});
+    person.skills.forEach(function(skill){
+      Meteor.call('insertSkill', skill);
+    })
+    return Skills.find();
+  };
+  Template.person.interests = function(){
+    person = People.findOne({id: Session.get('profileId')});
+    person.interests.forEach(function(interest){
+      Meteor.call('insertInterest', interest);
+    })
+    return Interests.find();
+  };
+  Template.person.projects = function(){
+    person = People.findOne({id: Session.get('profileId')});
+    return Projects.find({id: {$in: person.projects}});
+  };
   Template.editProfile.events({
     'click #save' : function(){
       person = {};
@@ -134,22 +156,6 @@ if (Meteor.isClient) {
   // Project Template Helpers
   Template.project.project = function(){
     return Projects.findOne({id: Session.get('profileId')});
-  };
-  Template.project.pictures = function(){
-    Meteor.call('clearPictures');
-    Projects.findOne({id: Session.get('profileId')}).pictureUrlList.forEach(function(pictureUrl, index, array){
-      picture = {
-        pictureUrl: pictureUrl
-      }
-      if(index == 0){
-        picture.firstItem = true;
-      }
-      else{
-        picture.firstItem = false;
-      }
-      Meteor.call('insertPicture', picture);
-    });
-    return Pictures.find();
   };
   Template.project.team = function(){
     project = Projects.findOne({id: Session.get('profileId')});
@@ -270,6 +276,18 @@ if (Meteor.isServer) {
         team: project.team
       });
     },
+    clearSkills : function() {
+      Skills.remove({});
+    },
+    insertSkill : function(item) {
+      Skills.insert({skill: item});
+    },
+    clearInterests : function() {
+      Interests.remove({});
+    },
+    insertInterest : function(item) {
+      Interests.insert({interest: item});
+    },
     clearPictures : function() {
       Pictures.remove({});
     },
@@ -308,8 +326,9 @@ if (Meteor.isServer) {
 			major:'Finance',
 			year: 2014,
 			bio:'Chris raised his first round of investment capital when he was nineteen. He is a wizard with a spreadsheet and understands how to make sure money is always flowing to the right place. He happens to be a kick ass graphic designer and has designed products that have grossed thousands in sales.',
-			interests: ['Design'],
-			projects: ['Cloudware'],
+			skills: [],
+      interests: ['Design'],
+			projects: [1, 4],
 			pictureUrl: '/images/photos/team-1.png',
       email: 'cmfake256@purdue.edu',
       created: '2011-12-04'
@@ -321,8 +340,9 @@ if (Meteor.isServer) {
 			major:'Industrial Engineering',
 			year: 2014,
 			bio:'A passionate entrepreneur, Andrew has experience building businesses in industries spanning everything from biotech to energy supplements to software development. He can do a little bit of everything but nothing that well, hence why he surrounds himself by those who are the best at what they do.',
-			interest: 'Business Software',
-			projects: ['Cloudware'],
+			skills: ['Building Empires'],
+      interests: ['Business Software'],
+			projects: [1, 2, 3, 4],
 			pictureUrl: '/images/photos/team-2.png',
       email: 'alfake256@purdue.edu',
       created: '2012-04-13'
@@ -334,8 +354,9 @@ if (Meteor.isServer) {
 			major:'Computer Science',
 			year: 2015,
 			bio:'Jeremy has been programming since he was 14 years old. He has a passion for developing quality software and has experience ranging from database design to front-end user experience and everything in between.',
-			interests: ['Software'],
-			projects: ['Cloudware'],
+			skills: ['Coding', 'A Little Biz Dev', 'Front-End'],
+      interests: ['Software'],
+      projects: [1, 2, 3, 4],
 			pictureUrl: '/images/photos/team-3.png',
       email: 'jmfake256@purdue.edu',
       created: '2012-12-04'
@@ -347,8 +368,9 @@ if (Meteor.isServer) {
 			major:'Sales Management',
 			year: 2016,
 			bio:'Steve has a vast array of experience from serving on Hobart College’s budget committee to doing a stint as a production manager for the Wendy WIlliams Show. He has a passion for music and can shred on guitar.',
-			interests: ['Business'],
-			projects: ['Cloudware'],
+			skills: ['Biz Dev', 'Not Much Else'],
+      interests: ['Business'],
+			projects: [3, 4],
 			pictureUrl: '/images/photos/team-4.png',
       email: 'swfake256@purdue.edu',
       created: '2013-12-02'
