@@ -318,6 +318,10 @@
 
 </template>
 
+<template name="project">
+  <!-- Add project page mockup -->
+</template>
+
 <template name="projects">
 
   <!-- start: title -->
@@ -361,8 +365,8 @@
             {{#each projects}}
               <div class="element {{type}}">
               <div class="thumbs">
-                <a href="portfolio-item.html" class="picture">
-                  <img class="white-content" alt="content" src="images/photos/app-{{id}}.png">
+                <a href="/projects/{{id}}" class="picture">
+                  <img class="white-content" alt="content" src="{{pictureUrl}}">
                   <span><i class="icon-plus-sign"></i></span>
                 </a>
                 </div>
@@ -376,10 +380,6 @@
       
   </div><!-- end: portfolio-->
 
-</template>
-
-<template name="project">
-  <!-- Add project page mockup -->
 </template>
 
 <template name="footer">
