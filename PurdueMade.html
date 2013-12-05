@@ -36,7 +36,7 @@
   <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-      <h3 id="myModalLabel">Sign in with LinkedIn to see more content</h3>
+      <h3 id="myModalLabel" class="pagination-centered">Sign in with LinkedIn to see more <br/>people and projects</h3>
     </div>
     <div class="modal-footer">
       <span><button class="btn btn-mini btn-modal-1" data-dismiss="modal" aria-hidden="true">Close</button></span>
@@ -55,7 +55,11 @@
         <a data-toggle="collapse" data-target=".nav-collapse" class="btn btn-navbar">
           <span><i class="icon-reorder"></i></span>
         </a>
+            {{#if loggedIn}}
+        <a class="brand" href="/feed"><span><i class="icon-stop"></i></span>PurdueMade</a>
+            {{else}}
         <a class="brand" href="/"><span><i class="icon-stop"></i></span>PurdueMade</a>
+            {{/if}}
         <div id="top-navigation" class="nav-collapse subnav-collapse collapse ">
           <ul class="nav pull-right">
             {{#if loggedIn}}
@@ -114,19 +118,10 @@
           <div class="span3">
             <div class="white-content">
               <div class="img-mask hover-mask">
-                <img src="{{pictureUrl}}">
-                <div class="flip-container">
-                  <div class="flipper">
-                    <div class="back">
-                      <div class="flip-b">
                         <a href="#myModal" data-toggle="modal">
-                          <span class="icon-back"><i class="icon-plus-sign"></i></span>
+                <img src="{{pictureUrl}}">
                         </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
+                <span class="hover-fade"></span>          
               </div>              
               <a href="#myModal" data-toggle="modal">
                 <h5>{{name}}<span class="white-title"><i class="icon-plus"></i></span></h5>
@@ -161,19 +156,10 @@
           <div class="span3">
             <div class="white-content">
               <div class="img-mask hover-mask">
-                <img src="{{pictureUrl}}">
-                <div class="flip-container">
-                  <div class="flipper">
-                    <div class="back">
-                      <div class="flip-b">
                         <a href="#myModal" data-toggle="modal">
-                          <span class="icon-back"><i class="icon-plus-sign"></i></span>
+                <img src="{{pictureUrl}}">
                         </a>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
+                <span class="hover-fade"></span>          
               </div>              
               <a href="#myModal" data-toggle="modal">
                 <h5>{{firstName}} {{lastName}}<span class="white-title"><i class="icon-plus"></i></span></h5>
@@ -200,7 +186,11 @@
           <ul class="media-list">
             {{#each feed}}
               <li class="media">
-                <a class="pull-left" href="#">
+                {{#if isPerson}}
+                  <a class="pull-left" href="/people/{{id}}">
+                {{else}}
+                  <a class="pull-left" href="/projects/{{id}}">
+                {{/if}}
                   <img class="media-object" src="{{pictureUrl}}" width="64px">
                 </a>
                 <div class="media-body">
@@ -257,7 +247,7 @@
         <div class="span12">
           <div class="row spacey">
             {{#each people}}
-              <div class="span3">
+              <div class="span2">
                 <div class="white-content">
                   <div class="img-mask hover-mask">
                     <img src="{{pictureUrl}}">
@@ -358,7 +348,7 @@
               <ul>
                 {{#each skills}}
                   <li>
-                    <a class="side-tag " href="#">{{skill}}</a>
+                    <a class="side-tag " href="#">{{this}}</a>
                   </li>
                 {{/each}}
               </ul>
@@ -376,7 +366,7 @@
               <ul>
                 {{#each interests}}
                   <li>
-                    <a class="side-tag " href="#">{{interest}}</a>
+                    <a class="side-tag " href="#">{{this}}</a>
                   </li>
                 {{/each}}
               </ul>
@@ -429,54 +419,48 @@
 
 <template name="editProfile">
   <!--start: send comment -->
-      <div class="row">
-        <div class="span8 white-content post-form">
-
-          <div class="separator">
-            <div class="left">
-              <div class="lines">
-                <div>
-                <h2 class="lines-title">Edit Your profile</h2>
-                </div>
-              </div>
+  <div class="row">
+    <div class="span8 white-content post-form">
+      <div class="separator">
+        <div class="left">
+          <div class="lines">
+            <div>
+            <h2 class="lines-title">Edit Your profile</h2>
             </div>
-          </div>          
-
-          <form method="post">
-            <div class="clearfix">
-              <div class="input">
-                <input id="major" type="text" placeholder="Major or Field of Study" class="span3">  
-                <input id="year" type="text" placeholder="Graduation Year" class="span3">  
-
-              </div>
-            </div>
-
-            <span class="visual"><i class="icon-user"></i></span>
-
-            <div class="clearfix">
-              <div class="input">
-                <input id="interest1" type="text" placeholder="Interest" class="span2">  
-                <input id="interest2" type="text" placeholder="Interest" class="span2">
-                <input id="interest3" type="text" placeholder="Interest" class="span2">   
-              </div>
-            </div>
-            <div class="clearfix">
-              <div class="input">
-                <input id="interest4" type="text" placeholder="Interest" class="span2">  
-                <input id="interest5" type="text" placeholder="Interest" class="span2">
-                <input id="interest6" type="text" placeholder="Interest" class="span2">   
-              </div>
-            </div>
-
-            <div class="field clearfix">
-              <textarea id="bio" placeholder="Tell the community about yourself" class="text textarea"></textarea>
-            </div>
-
-            <div class="actions">
-              <button tabindex="3" id="save" class="btn btn-color">Update</button>
-            </div>
-          </form>
-        </div><!--end: send comment  --> 
+          </div>
+        </div>
+      </div>          
+      <form method="post">
+        <div class="clearfix">
+          <div class="input">
+            <input id="major" type="text" placeholder="Major or Field of Study" class="span3">  
+            <input id="year" type="text" placeholder="Graduation Year" class="span3">  
+          </div>
+        </div>
+        <span class="visual"><i class="icon-user"></i></span>
+        <div class="clearfix">
+          <div class="input">
+            <input id="interest1" type="text" placeholder="Interest" class="span2">  
+            <input id="interest2" type="text" placeholder="Interest" class="span2">
+            <input id="interest3" type="text" placeholder="Interest" class="span2">   
+          </div>
+        </div>
+        <div class="clearfix">
+          <div class="input">
+            <input id="interest4" type="text" placeholder="Interest" class="span2">  
+            <input id="interest5" type="text" placeholder="Interest" class="span2">
+            <input id="interest6" type="text" placeholder="Interest" class="span2">   
+          </div>
+        </div>
+        <div class="field clearfix">
+          <textarea id="bio" placeholder="Tell the community about yourself" class="text textarea"></textarea>
+        </div>
+        <div class="actions">
+          <button tabindex="3" id="save" class="btn btn-color">Update</button>
+        </div>
+      </form>
+    </div><!--end: send comment  -->
+  </div>
 </template>
 
 <template name="projects">

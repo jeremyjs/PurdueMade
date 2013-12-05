@@ -14,6 +14,7 @@ if (Meteor.isClient) {
     Session.setDefault('userId', '0');
     Session.setDefault('projectId', '0');
     Session.setDefault('loggedIn', false);
+    Session.setDefault('firstLogin', true);
   });
 
   Router.configure({
@@ -50,6 +51,9 @@ if (Meteor.isClient) {
       before: function() {
         Session.set('profileId', this.params.id);
       }
+    });
+    this.route('contact', {
+      path: '/contact'
     });
   });
 
@@ -91,24 +95,14 @@ if (Meteor.isClient) {
   Template.person.person = function(){
     return People.findOne({id: Session.get('profileId')});
   };
-  Template.person.skills = function(){
-    Meteor.call('clearSkills');
-    person = People.findOne({id: Session.get('profileId')});
-    person.skills.forEach(function(skill){
-      Meteor.call('insertSkill', skill);
-    })
-    return Skills.find();
-  };
-  Template.person.interests = function(){
-    person = People.findOne({id: Session.get('profileId')});
-    person.interests.forEach(function(interest){
-      Meteor.call('insertInterest', interest);
-    })
-    return Interests.find();
-  };
   Template.person.projects = function(){
     person = People.findOne({id: Session.get('profileId')});
-    return Projects.find({id: {$in: person.projects}});
+    if(person.projects){
+      return Projects.find({id: {$in: person.projects}});
+    }
+    else{
+      return [];
+    }
   };
   Template.editProfile.events({
     'click #save' : function(){
@@ -124,7 +118,13 @@ if (Meteor.isClient) {
       }
       person.interests = interests;
       Meteor.call('savePerson', person);
-      Router.go('person', {id: Session.get('userId')});
+      if(Session.get('firstLogin')){
+        Session.set('firstLogin', false);
+        Router.go('feed');
+      }
+      else{
+        Router.go('person', {id: Session.get('userId')});
+      }
     },
     'click #sendMessage' : function(){
       person = People.findOne({id: Session.get('profileId')});
@@ -164,11 +164,27 @@ if (Meteor.isClient) {
     project = Projects.findOne({id: Session.get('profileId')});
     return People.find({id: {$in: project.team}});
   };
+  Template.project.following = function(){
+    followers =  Projects.findOne({id: Session.get('profileId')}).followers;
+    console.log(followers.indexOf({id: Session.get('userId')}));
+    if(followers.indexOf({id: Session.get('userId')}) >= 0){
+      return true;
+    }
+    else{
+      return false;
+    }
+  };
+  Template.project.numFollowers = function(){
+    return Projects.findOne({id: Session.get('profileId')}).followers.length;
+  };
   Template.project.events({
     'click #follow' : function(){
+      Meteor.call('followProject', Session.get('profileId'), Session.get('userId'));
+    },
+    'click #unfollow' : function(){
       project = Projects.findOne({id: Session.get('profileId')});
       userId = Session.get('userId');
-      Meteor.call('followProject', project._id, userId);
+      Meteor.call('unfollowProject', project._id, userId);
     }
   });
 
@@ -218,9 +234,9 @@ if (Meteor.isClient) {
   };
 
   onLinkedInProfile = function(profile) {
-    Session.set('userId', profile.id);
-    console.log(profile);
     profile = profile.values[0];
+    console.log(profile);
+    Session.set('userId', profile.id);
     skills = [];
     for(var i=0; i < profile.skills.values.length; i++){
       skills[skills.length] = profile.skills.values[i].skill.name;
@@ -234,11 +250,12 @@ if (Meteor.isClient) {
       pictureUrl: profile.pictureUrl,
       profileUrl: profile.siteStandardProfileRequest.url
     };
-    if(People.find({id: profile.id}).count() === 0){
+    if(People.find({id: p.id}).count() === 0){
       People.insert(p);
       Router.go('editProfile');
     }
     else{
+      Session.set('firstLogin', false);
       Router.go('feed');
     }
   };
@@ -298,7 +315,10 @@ if (Meteor.isServer) {
       Pictures.insert(item);
     },
     followProject : function(projectId, userId) {
-      Projects.update(projectId, {$push: {$each: [{followers: userId}], $sort: 1}});
+      Projects.update({id: projectId}, {$addToSet: { followers: {id: userId} }});
+    },
+    unfollowProject : function(projectId, userId) {
+      Projects.update({id: projectId}, {$pull: { followers: {id: userId} }});
     }
   });
 
@@ -320,112 +340,112 @@ if (Meteor.isServer) {
     });
     
     // Prepopulate users database
-    People.remove({});
+    // People.remove({});
 
-    People.insert({
-      id: '1',
-      firstName:'Chris',
-      lastName:'MacPherson',
-			major:'Finance',
-			year: 2014,
-			bio:'Chris raised his first round of investment capital when he was nineteen. He is a wizard with a spreadsheet and understands how to make sure money is always flowing to the right place. He happens to be a kick ass graphic designer and has designed products that have grossed thousands in sales.',
-			skills: [],
-      interests: ['Design'],
-			projects: ['1', '4'],
-			pictureUrl: '/images/photos/team-1.png',
-      email: 'cmfake256@purdue.edu',
-      created: '2011-12-04'
-    });
-    People.insert({
-			id: '2',
-      firstName:'Andrew',
-      lastName:'Linfoot',
-			major:'Industrial Engineering',
-			year: 2014,
-			bio:'A passionate entrepreneur, Andrew has experience building businesses in industries spanning everything from biotech to energy supplements to software development. He can do a little bit of everything but nothing that well, hence why he surrounds himself by those who are the best at what they do.',
-			skills: ['Building Empires'],
-      interests: ['Business Software'],
-			projects: ['1', '2', '3', '4'],
-			pictureUrl: '/images/photos/team-2.png',
-      email: 'alfake256@purdue.edu',
-      created: '2012-04-13'
-    });
-    People.insert({
-			id: '3',
-      firstName:'Jeremy',
-      lastName:'Meyer',
-			major:'Computer Science',
-			year: 2015,
-			bio:'Jeremy has been programming since he was 14 years old. He has a passion for developing quality software and has experience ranging from database design to front-end user experience and everything in between.',
-			skills: ['Coding', 'A Little Biz Dev', 'Front-End'],
-      interests: ['Software'],
-      projects: ['1', '2', '3', '4'],
-			pictureUrl: '/images/photos/team-3.png',
-      email: 'jmfake256@purdue.edu',
-      created: '2012-12-04'
-    });
-    People.insert({
-			id: '4',
-      firstName:'Steve',
-      lastName:'Webster',
-			major:'Sales Management',
-			year: 2016,
-			bio:'Steve has a vast array of experience from serving on Hobart College’s budget committee to doing a stint as a production manager for the Wendy WIlliams Show. He has a passion for music and can shred on guitar.',
-			skills: ['Biz Dev', 'Not Much Else'],
-      interests: ['Business'],
-			projects: ['3', '4'],
-			pictureUrl: '/images/photos/team-4.png',
-      email: 'swfake256@purdue.edu',
-      created: '2013-12-02'
-    });
+    // People.insert({
+    //   id: '1',
+    //   firstName:'Chris',
+    //   lastName:'MacPherson',
+    //   major:'Finance',
+    //   year: 2014,
+    //   bio:'Chris raised his first round of investment capital when he was nineteen. He is a wizard with a spreadsheet and understands how to make sure money is always flowing to the right place. He happens to be a kick ass graphic designer and has designed products that have grossed thousands in sales.',
+    //   skills: [],
+    //   interests: ['Design', 'Web Apps'],
+    //   projects: ['1', '4'],
+    //   pictureUrl: '/images/photos/team-1.png',
+    //   email: 'cmfake256@purdue.edu',
+    //   created: '2011-12-04'
+    // });
+    // People.insert({
+    //   id: '2',
+    //   firstName:'Andrew',
+    //   lastName:'Linfoot',
+    //   major:'Industrial Engineering',
+    //   year: 2014,
+    //   bio:'A passionate entrepreneur, Andrew has experience building businesses in industries spanning everything from biotech to energy supplements to software development. He can do a little bit of everything but nothing that well, hence why he surrounds himself by those who are the best at what they do.',
+    //   skills: ['Building Empires'],
+    //   interests: ['Business', 'Software'],
+    //   projects: ['1', '2', '3', '4'],
+    //   pictureUrl: '/images/photos/team-2.png',
+    //   email: 'alfake256@purdue.edu',
+    //   created: '2012-04-13'
+    // });
+    // People.insert({
+    //   id: '3',
+    //   firstName:'Jeremy',
+    //   lastName:'Meyer',
+    //   major:'Computer Science',
+    //   year: 2015,
+    //   bio:'Jeremy has been programming since he was 14 years old. He has a passion for developing quality software and has experience ranging from database design to front-end user experience and everything in between.',
+    //   skills: ['Coding', 'A Little Biz Dev', 'Front-End'],
+    //   interests: ['Software'],
+    //   projects: ['1', '2', '3', '4'],
+    //   pictureUrl: '/images/photos/team-3.png',
+    //   email: 'jmfake256@purdue.edu',
+    //   created: '2012-12-04'
+    // });
+    // People.insert({
+    //   id: '4',
+    //   firstName:'Steve',
+    //   lastName:'Webster',
+    //   major:'Sales Management',
+    //   year: 2016,
+    //   bio:'Steve has a vast array of experience from serving on Hobart College’s budget committee to doing a stint as a production manager for the Wendy WIlliams Show. He has a passion for music and can shred on guitar.',
+    //   skills: ['Biz Dev', 'Not Much Else'],
+    //   interests: ['Business'],
+    //   projects: ['3', '4'],
+    //   pictureUrl: '/images/photos/team-4.png',
+    //   email: 'swfake256@purdue.edu',
+    //   created: '2013-12-02'
+    // });
     
-    // Prepopulate projects database
-    Projects.remove({});
+    // // Prepopulate projects database
+    // Projects.remove({});
 
-    Projects.insert({
-			id: '1',
-			name: 'Cloudware',
-			type: 'Software',
-			pictureUrl: '/images/projects/app-1.png',
-      pictureUrlList: ['/images/projects/app-1.png'],
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
-      team: ['1', '2', '3'],
-      followers: ['2', '3'],
-      created: '2013-10-28'
-    });
-    Projects.insert({
-			id: '2',
-			name: 'HomeOffice',
-			type: 'Business',
-			pictureUrl: '/images/projects/app-2.png',
-      pictureUrlList: ['/images/projects/app-2.png'],
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
-      team: ['2', '3'],
-      followers: ['1', '3'],
-      created: '2012-12-04'
-    });
-    Projects.insert({
-			id: '3',
-			name: 'FruitOrama',
-			type: 'Design',
-			pictureUrl: '/images/projects/app-3.png',
-      pictureUrlList: ['/images/projects/app-3.png'],
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
-      team: ['2', '3', '4'],
-      followers: ['1', '2', '3', '4'],
-      created: '2013-05-21'
-    });
-    Projects.insert({
-			id: '4',
-			name: 'Prolift',
-			type: 'Business',
-      pictureUrl: '/images/projects/app-4.png',
-      pictureUrlList: ['/images/projects/app-4.png'],
-      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
-      team: ['1', '2', '3', '4'],
-      followers: ['4'],
-      created: '2013-12-04'
-    });
+    // Projects.insert({
+    //   id: '1',
+    //   name: 'Cloudware',
+    //   type: 'Software',
+    //   pictureUrl: '/images/projects/app-1.png',
+    //   pictureUrlList: ['/images/projects/app-1.png'],
+    //   description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
+    //   team: ['1', '2', '3'],
+    //   followers: [{id: '1'}, {id: '3'}],
+    //   created: '2013-10-28'
+    // });
+    // Projects.insert({
+    //   id: '2',
+    //   name: 'HomeOffice',
+    //   type: 'Business',
+    //   pictureUrl: '/images/projects/app-2.png',
+    //   pictureUrlList: ['/images/projects/app-2.png'],
+    //   description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
+    //   team: ['2', '3'],
+    //   followers: [{id: '2'}, {id: '4'}, {id: '3'}],
+    //   created: '2012-12-04'
+    // });
+    // Projects.insert({
+    //   id: '3',
+    //   name: 'FruitOrama',
+    //   type: 'Design',
+    //   pictureUrl: '/images/projects/app-3.png',
+    //   pictureUrlList: ['/images/projects/app-3.png'],
+    //   description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
+    //   team: ['2', '3', '4'],
+    //   followers: [{id: '2'}, {id: '1'}],
+    //   created: '2013-05-21'
+    // });
+    // Projects.insert({
+    //   id: '4',
+    //   name: 'Prolift',
+    //   type: 'Business',
+    //   pictureUrl: '/images/projects/app-4.png',
+    //   pictureUrlList: ['/images/projects/app-4.png'],
+    //   description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
+    //   team: ['1', '2', '3', '4'],
+    //   followers: [{id: '4'}],
+    //   created: '2013-12-04'
+    // });
   
   });
 }
