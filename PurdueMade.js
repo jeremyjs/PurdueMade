@@ -2,11 +2,13 @@
 People = new Meteor.Collection('people');
 Projects = new Meteor.Collection('projects');
 Feed = new Meteor.Collection('feed');
+Pictures = new Meteor.Collection('pictures');
 
 if (Meteor.isClient) {
   Meteor.startup(function(){
     Session.setDefault('page', 'home');
     Session.setDefault('profileId', '0');
+    Session.setDefault('userId', '0');
   });
 
   Router.configure({
@@ -72,16 +74,49 @@ if (Meteor.isClient) {
     return Feed.find({}, {sort: [['created', 'desc']], limit: 6});
   };
 
+  // Person Template Helpers
   Template.person.person = function(){
     return People.findOne({id: Session.get('profileId')});
   };
+
+  // Project Template Helpers
   Template.project.project = function(){
     return Projects.findOne({id: Session.get('profileId')});
   };
+  Template.project.pictures = function(){
+    Meteor.call('clearPictures');
+    Projects.findOne({id: Session.get('profileId')}).pictureUrlList.forEach(function(pictureUrl, index, array){
+      picture = {
+        pictureUrl: pictureUrl
+      }
+      if(index == 0){
+        picture.firstItem = true;
+      }
+      else{
+        picture.firstItem = false;
+      }
+      Meteor.call('insertPicture', picture);
+    });
+    return Pictures.find();
+  };
+  Template.project.team = function(){
+    project = Projects.findOne({id: Session.get('profileId')});
+    return People.find({id: {$in: project.team}});
+  };
+  Template.project.events({
+    'click #follow' : function(){
+      project = Projects.findOne({id: Session.get('profileId')});
+      userId = Session.get('userId');
+      Meteor.call('followProject', project._id, userId);
+    }
+  });
 
+  // People Template Helpers
   Template.people.people = function(){
     return People.find();
   };
+
+  // Projects Template Helpers
   Template.projects.projects = function(){
     return Projects.find();
   };
@@ -91,6 +126,7 @@ if (Meteor.isClient) {
   };
 
   onLinkedInAuth = function() {
+    Session.set('userId', parseInt(this.params.id));
     IN.API.Profile('me').fields(['firstName', 'lastName', 'industry', 'pictureUrl', 'skills', 'id', 'siteStandardProfileRequest'])
                   // .params({'start': 10, 'count': 5})
                   .result(onLinkedInProfile)
@@ -104,7 +140,7 @@ if (Meteor.isClient) {
 
   onLinkedInProfile = function(profile) {
     profile = profile.values[0];
-    console.log(profile);
+    // console.log(profile);
     skills = [];
     for(var i=0; i < profile.skills.values.length; i++){
       skills[skills.length] = profile.skills.values[i].skill.name;
@@ -139,6 +175,15 @@ if (Meteor.isServer) {
     },
     insertFeedItem : function(item) {
       Feed.insert(item);
+    },
+    clearPictures : function() {
+      Pictures.remove({});
+    },
+    insertPicture : function(item) {
+      Pictures.insert(item);
+    },
+    followProject : function(projectId, userId) {
+      Projects.update(projectId, {$push: {followers: userId}});
     }
   });
 
@@ -170,7 +215,7 @@ if (Meteor.isServer) {
 			bio:'Chris raised his first round of investment capital when he was nineteen. He is a wizard with a spreadsheet and understands how to make sure money is always flowing to the right place. He happens to be a kick ass graphic designer and has designed products that have grossed thousands in sales.',
 			interest: 'Design',
 			projects: ['Cloudware'],
-			pictureUrl: 'images/photos/team-1.png',
+			pictureUrl: '/images/photos/team-1.png',
       created: '2011-12-04'
     });
     People.insert({
@@ -181,7 +226,7 @@ if (Meteor.isServer) {
 			bio:'A passionate entrepreneur, Andrew has experience building businesses in industries spanning everything from biotech to energy supplements to software development. He can do a little bit of everything but nothing that well, hence why he surrounds himself by those who are the best at what they do.',
 			interest: 'Business Software',
 			projects: ['Cloudware'],
-			pictureUrl: 'images/photos/team-2.png',
+			pictureUrl: '/images/photos/team-2.png',
       created: '2012-04-13'
     });
     People.insert({
@@ -192,7 +237,7 @@ if (Meteor.isServer) {
 			bio:'Jeremy has been programming since he was 14 years old. He has a passion for developing quality software and has experience ranging from database design to front-end user experience and everything in between.',
 			interest: 'Software',
 			projects: ['Cloudware'],
-			pictureUrl: 'images/photos/team-3.png',
+			pictureUrl: '/images/photos/team-3.png',
       created: '2012-12-04'
     });
     People.insert({
@@ -203,7 +248,7 @@ if (Meteor.isServer) {
 			bio:'Steve has a vast array of experience from serving on Hobart College’s budget committee to doing a stint as a production manager for the Wendy WIlliams Show. He has a passion for music and can shred on guitar.',
 			interest: 'Business',
 			projects: ['Cloudware'],
-			pictureUrl: 'images/photos/team-4.png',
+			pictureUrl: '/images/photos/team-4.png',
       created: '2013-12-02'
     });
     
@@ -214,32 +259,44 @@ if (Meteor.isServer) {
 			id: 1,
 			name: 'Cloudware',
 			type: 'Software',
-			pictureUrl: 'images/projects/app-1.png',
-      description: '',
+			pictureUrl: '/images/projects/app-1.png',
+      pictureUrlList: ['/images/projects/app-1.png'],
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
+      team: [1, 2, 3],
+      followers: [2, 3],
       created: '2013-10-28'
     });
     Projects.insert({
 			id: 2,
 			name: 'HomeOffice',
 			type: 'Business',
-			pictureUrl: 'images/projects/app-2.png',
-      description: '',
+			pictureUrl: '/images/projects/app-2.png',
+      pictureUrlList: ['/images/projects/app-2.png'],
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
+      team: [2, 3],
+      followers: [1, 3],
       created: '2012-12-04'
     });
     Projects.insert({
 			id: 3,
 			name: 'FruitOrama',
 			type: 'Design',
-			pictureUrl: 'images/projects/app-3.png',
-      description: '',
+			pictureUrl: '/images/projects/app-3.png',
+      pictureUrlList: ['/images/projects/app-3.png'],
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
+      team: [2, 3, 4],
+      followers: [1, 2, 3, 4],
       created: '2013-05-21'
     });
     Projects.insert({
 			id: 4,
 			name: 'Prolift',
 			type: 'Business',
-			pictureUrl: 'images/projects/app-4.png',
-      description: '',
+      pictureUrl: '/images/projects/app-4.png',
+      pictureUrlList: ['/images/projects/app-4.png'],
+      description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
+      team: [1, 2, 3, 4],
+      followers: [4],
       created: '2013-12-04'
     });
   
