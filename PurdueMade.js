@@ -10,6 +10,7 @@ if (Meteor.isClient) {
     Session.setDefault('profileId', '0');
     Session.setDefault('userId', '0');
     Session.setDefault('projectId', '0');
+    Session.setDefault('loggedIn', false);
   });
 
   Router.configure({
@@ -34,8 +35,7 @@ if (Meteor.isClient) {
       }
     });
     this.route('editProfile', {
-      path: '/editProfile',
-      template: 'editProfile'
+      path: '/editProfile'
     });
     this.route('projects', {
       path: '/projects',
@@ -51,6 +51,9 @@ if (Meteor.isClient) {
   });
 
   // Home Template Helpers
+  Template.navbar.loggedIn = function(){
+    return Session.get('loggedIn');
+  };
   Template.homePeople.people = function(){
     return People.find({id: {$lte: 4}}, {limit: 4});
   };
@@ -97,7 +100,35 @@ if (Meteor.isClient) {
       person.interests = interests;
       Meteor.call('savePerson', person);
       Router.go('person', {id: Session.get('userId')});
+    },
+    'click #sendMessage' : function(){
+      person = People.findOne({id: Session.get('profileId')});
+      jsonString = JSON.stringify({
+        "recipients": {
+          "values": [{
+            "person": {
+              "_path": "/people/email=" + person.email,
+              "first-name": person.firstName,
+              "last-name": person.lastName
+            }
+          }]
+        },
+        "subject": $('#subject').value(), // "Invitation to Connect"
+        "body": $('#body').value(), // "I'd like to connect on LinkedIn through PurdueMade."
+        "item-content": {
+          "invitation-request": {
+            "connect-type": "friend"
+          }
+        }
+      });
+      // REST call to send message
+      IN.API.Raw("/people/~/mailbox")
+            .method("POST")
+            .body(jsonString)
+            .result(onMessageSent)
+            .error(function error(e) { alert(e); });
     }
+
   });
 
   // Project Template Helpers
@@ -164,19 +195,22 @@ if (Meteor.isClient) {
   };
 
   onLinkedInAuth = function() {
+    Session.set('loggedIn', true);
     IN.API.Profile('me').fields(['firstName', 'lastName', 'industry', 'pictureUrl', 'skills', 'id', 'siteStandardProfileRequest'])
-                  // .params({'start': 10, 'count': 5})
                   .result(onLinkedInProfile)
-                  .error(onLinkedInProfileError);
+                  .error(function(err) { console.log(err); });
+    IN.API.Raw("/people/~/email-address")
+          .result(function(result) { console.log(result); })
+          .error(function(err) { console.log(err); });
     // IN.API.Connections('me').fields('firstName', 'lastName', 'industry', 'pictureUrl', 'skills')
     //              .params({'start': 0, 'count': 25})
     //              .result(displayProfiles)
-    //              .error(displayProfilesErrors);
-    // IN.API.MemberUpdates("me").result(onLinkedInUpdate);
+    //              .error(function(err) { console.log(err); });
   };
 
   onLinkedInProfile = function(profile) {
     Session.set('userId', profile.id);
+    console.log(profile);
     profile = profile.values[0];
     skills = [];
     for(var i=0; i < profile.skills.values.length; i++){
@@ -184,22 +218,30 @@ if (Meteor.isClient) {
     }
     p = {
       id: profile.id,
-      name: profile.firstName + ' ' + profile.lastName,
+      firstName: profile.firstName, 
+      lastName: profile.lastName,
       skills: skills,
       industry: profile.industry,
       pictureUrl: profile.pictureUrl,
       profileUrl: profile.siteStandardProfileRequest.url
     };
-    if(People.find({memberId: profile.id}).count() === 0){
+    if(People.find({id: profile.id}).count() === 0){
       People.insert(p);
+      Router.go('editProfile');
     }
-    // Router.go('editProfile', {id: Session.get('userId')});
+    else{
+      Router.go('feed');
+    }
   };
 
   onLinkedInProfileError = function(err) {
     console.log(err);
   };
 
+  onMessageSent = function(result) {
+    console.log(result);
+    // Update page to reflect invitation sent
+  };
 }
 
 if (Meteor.isServer) {
@@ -261,46 +303,54 @@ if (Meteor.isServer) {
 
     People.insert({
       id: 1,
-			name:'Chris MacPherson',
+      firstName:'Chris',
+      lastName:'MacPherson',
 			major:'Finance',
 			year: 2014,
 			bio:'Chris raised his first round of investment capital when he was nineteen. He is a wizard with a spreadsheet and understands how to make sure money is always flowing to the right place. He happens to be a kick ass graphic designer and has designed products that have grossed thousands in sales.',
 			interests: ['Design'],
 			projects: ['Cloudware'],
 			pictureUrl: '/images/photos/team-1.png',
+      email: 'cmfake256@purdue.edu',
       created: '2011-12-04'
     });
     People.insert({
 			id: 2,
-			name:'Andrew Linfoot',
+      firstName:'Andrew',
+      lastName:'Linfoot',
 			major:'Industrial Engineering',
 			year: 2014,
 			bio:'A passionate entrepreneur, Andrew has experience building businesses in industries spanning everything from biotech to energy supplements to software development. He can do a little bit of everything but nothing that well, hence why he surrounds himself by those who are the best at what they do.',
 			interest: 'Business Software',
 			projects: ['Cloudware'],
 			pictureUrl: '/images/photos/team-2.png',
+      email: 'alfake256@purdue.edu',
       created: '2012-04-13'
     });
     People.insert({
 			id: 3,
-			name:'Jeremy Meyer',
+      firstName:'Jeremy',
+      lastName:'Meyer',
 			major:'Computer Science',
 			year: 2015,
 			bio:'Jeremy has been programming since he was 14 years old. He has a passion for developing quality software and has experience ranging from database design to front-end user experience and everything in between.',
 			interests: ['Software'],
 			projects: ['Cloudware'],
 			pictureUrl: '/images/photos/team-3.png',
+      email: 'jmfake256@purdue.edu',
       created: '2012-12-04'
     });
     People.insert({
 			id: 4,
-			name:'Steve Webster',
+      firstName:'Steve',
+      lastName:'Webster',
 			major:'Sales Management',
 			year: 2016,
 			bio:'Steve has a vast array of experience from serving on Hobart College’s budget committee to doing a stint as a production manager for the Wendy WIlliams Show. He has a passion for music and can shred on guitar.',
 			interests: ['Business'],
 			projects: ['Cloudware'],
 			pictureUrl: '/images/photos/team-4.png',
+      email: 'swfake256@purdue.edu',
       created: '2013-12-02'
     });
     
