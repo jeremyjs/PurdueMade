@@ -33,9 +33,9 @@ if (Meteor.isClient) {
         Session.set('profileId', parseInt(this.params.id));
       }
     });
-    this.route('updateProfile', {
-      path: '/updateProfile',
-      template: 'updatePerson'
+    this.route('editProfile', {
+      path: '/editProfile',
+      template: 'editProfile'
     });
     this.route('projects', {
       path: '/projects',
@@ -85,7 +85,7 @@ if (Meteor.isClient) {
   Template.person.person = function(){
     return People.findOne({id: Session.get('profileId')});
   };
-  Template.updatePerson.events({
+  Template.editProfile.events({
     'click #save' : function(){
       person = {};
       person._id = People.findOne({id: Session.get('profileId')})._id;
@@ -164,7 +164,6 @@ if (Meteor.isClient) {
   };
 
   onLinkedInAuth = function() {
-    Session.set('userId', parseInt(this.params.id));
     IN.API.Profile('me').fields(['firstName', 'lastName', 'industry', 'pictureUrl', 'skills', 'id', 'siteStandardProfileRequest'])
                   // .params({'start': 10, 'count': 5})
                   .result(onLinkedInProfile)
@@ -177,6 +176,7 @@ if (Meteor.isClient) {
   };
 
   onLinkedInProfile = function(profile) {
+    Session.set('userId', profile.id);
     profile = profile.values[0];
     skills = [];
     for(var i=0; i < profile.skills.values.length; i++){
@@ -193,7 +193,7 @@ if (Meteor.isClient) {
     if(People.find({memberId: profile.id}).count() === 0){
       People.insert(p);
     }
-    Router.go('updateProfile', {id: Session.get('userId')});
+    // Router.go('editProfile', {id: Session.get('userId')});
   };
 
   onLinkedInProfileError = function(err) {
