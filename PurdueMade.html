@@ -5,6 +5,8 @@
   <link type="text/css" rel="stylesheet" href="css/bootstrap-responsive.css">
   <link type="text/css" rel="stylesheet" href="css/style.css">
 
+  <script type="text/javascript" src="/js/isotope.js"></script>
+
   <script type="text/javascript" src="http://platform.linkedin.com/in.js">
     api_key: 774knwz4aoj84b
     onLoad: onLinkedInLoad
@@ -182,7 +184,7 @@
               <p>{{bio}}</p>
             </div>
           </div>
-        {{/each}}   
+        {{/each}}
       </div>
     </div>
   </div><!-- end: lastest-work -->
@@ -253,19 +255,36 @@
     <div class="container">
       <div class="row">
         <div class="span12">
-          <!--start: container -->
-          <div class="clearfix" id="container">
+          <div class="row spacey">
             {{#each people}}
-              <div class="element {{interest}}">
-                <div class="thumbs">
-                  <a href="/people/{{id}}" class="picture">
-                    <img class="white-content" alt="content" src="{{pictureUrl}}">
-                    <span><i class="icon-plus-sign"></i></span>
+              <div class="span3">
+                <div class="white-content">
+                  <div class="img-mask hover-mask">
+                    <img src="{{pictureUrl}}">
+                    <div class="flip-container">
+                      <div class="flipper">
+                        <div class="back">
+                          <div class="flip-b">
+                            <a href="/people/{{id}}">
+                              <span class="icon-back"><i class="icon-plus-sign"></i></span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
+                  </div>              
+                  <a href="/people/{{id}}">
+                    <h5>{{firstName}} {{lastName}}<span class="white-title"><i class="icon-plus"></i></span></h5>
                   </a>
+                  <a href="/people/{{id}}">
+                    <h5>{{major}} | {{year}}<span class="white-title"></span></h5>
+                  </a>
+                  <p>{{bio}}</p>
                 </div>
               </div>
             {{/each}}
-          </div><!--end: container -->
+          </div>
         </div>  
       </div>
     </div>
@@ -426,8 +445,8 @@
           <form method="post">
             <div class="clearfix">
               <div class="input">
-                <input type="text" placeholder="Major or Field of Study" class="span3">  
-                <input type="text" placeholder="Graduation Year" class="span3">  
+                <input id="major" type="text" placeholder="Major or Field of Study" class="span3">  
+                <input id="year" type="text" placeholder="Graduation Year" class="span3">  
 
               </div>
             </div>
@@ -436,32 +455,31 @@
 
             <div class="clearfix">
               <div class="input">
-                <input type="text" placeholder="Interest" class="span2">  
-                <input type="text" placeholder="Interest" class="span2">
-                <input type="text" placeholder="Interest" class="span2">   
+                <input id="interest1" type="text" placeholder="Interest" class="span2">  
+                <input id="interest2" type="text" placeholder="Interest" class="span2">
+                <input id="interest3" type="text" placeholder="Interest" class="span2">   
               </div>
             </div>
             <div class="clearfix">
               <div class="input">
-                <input type="text" placeholder="Interest" class="span2">  
-                <input type="text" placeholder="Interest" class="span2">
-                <input type="text" placeholder="Interest" class="span2">   
+                <input id="interest4" type="text" placeholder="Interest" class="span2">  
+                <input id="interest5" type="text" placeholder="Interest" class="span2">
+                <input id="interest6" type="text" placeholder="Interest" class="span2">   
               </div>
             </div>
 
             <div class="field clearfix">
-              <textarea placeholder="Tell the community about yourself" class="text textarea"></textarea>
+              <textarea id="bio" placeholder="Tell the community about yourself" class="text textarea"></textarea>
             </div>
 
             <div class="actions">
-              <button tabindex="3" type="submit"  class="btn btn-color">Update</button>
+              <button tabindex="3" id="save" class="btn btn-color">Update</button>
             </div>
           </form>
         </div><!--end: send comment  --> 
 </template>
 
 <template name="projects">
-
   <!-- start: title -->
   <div class="page-title">
     <div class="section-wrapper">
@@ -470,216 +488,158 @@
       </div>
     </div>
   </div><!-- end: title -->
-
-
   <!-- start: portfolio -->
   <div class="section-portfolio">
-
-    <div class="select-portfolio">
+<!--     <div class="select-portfolio">
       <div class="container">
         <div class="row">
           <div class="span12">  
-
             <div id="options">
-                <ul id="filters" class="option-set" data-option-key="filter">
-                  <li><a class="btn btn-color tag " href="#filter" data-option-value="*" class="selected">All</a></li>
-                  <li><a class="btn btn-color tag " href="#filter" data-option-value=".Software">Software</a></li>
-                  <li><a class="btn btn-color tag " href="#filter" data-option-value=".Design">Design</a></li>
-                  <li><a class="btn btn-color tag " href="#filter" data-option-value=".Business">Business</a></li>
-                </ul>
-              </div>
-
+              <ul id="filters" class="option-set" data-option-key="filter">
+                <li><a class="btn btn-color tag " href="#filter" data-option-value="*" class="selected">All</a></li>
+                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Software">Software</a></li>
+                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Design">Design</a></li>
+                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Business">Business</a></li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>  
-
+    </div> -->
     <div class="container">
       <div class="row">
-        <div class="span12">              
-
+        <div class="span12">
           <!--start: container -->
-          <div class="clearfix isotope" id="container">
+          <div class="row spacey">
             {{#each projects}}
-              <div class="element {{type}}">
-              <div class="thumbs">
-                <a href="/projects/{{id}}" class="picture">
-                  <img class="white-content" alt="content" src="{{pictureUrl}}">
-                  <span><i class="icon-plus-sign"></i></span>
-                </a>
+              <div class="span3">
+                <div class="white-content">
+                  <div class="img-mask hover-mask">
+                    <img src="{{pictureUrl}}">
+                    <div class="flip-container">
+                      <div class="flipper">
+                        <div class="back">
+                          <div class="flip-b">
+                            <a href="/projects/{{id}}">
+                              <span class="icon-back"><i class="icon-plus-sign"></i></span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
+                  </div>              
+                  <a href="/projects/{{id}}">
+                    <h5>{{name}}<span class="white-title"><i class="icon-plus"></i></span></h5>
+                  </a>
+                  <p>{{description}}</p>
                 </div>
               </div>
             {{/each}}
-          </div><!--end: container -->
-        
+          </div>
         </div>  
       </div>
     </div>
-      
   </div><!-- end: portfolio-->
-
 </template>
 
 <template name="project">
-<!-- start: title -->
-<div class="page-title">
-  <div class="section-wrapper">
-    <div class="container">
-      <h2>Project Name</h2>
-    </div>
-  </div>
-</div><!-- end: title -->
-
-
-<!-- start: portfolio-item -->
-<div class="section-portfolio-item">
-  <div class="section-wrapper2">
-    <div class="container">
-      <div class="row">
-    
-        <div class="span6">
-          <div class="">      
+  {{#with project}}
+    <!-- start: title -->
+    <div class="page-title">
+      <div class="section-wrapper">
+        <div class="container">
+          <h2>{{name}}</h2>
+        </div>
+      </div>
+    </div><!-- end: title -->
+    <!-- start: portfolio-item -->
+    <div class="section-portfolio-item">
+      <div class="section-wrapper2">
+        <div class="container">
+          <div class="row">
+            <div class="span6">
+              <div class="">      
+                <div class="separator">
+                  <div class="left">
+                    <div class="lines">
+                      <div>
+                        <h2 class="lines-title">About</h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>     
+                <p>{{description}}</p>
+              </div>
+              <div class="portfolio-info">
+                <a class="btn btn-color" href="{{Url}}">Visit Site</a>
+                {{#if following}}
+                  <a id="unfollow" class="btn btn-color3 active" href="javascript:void(0);">Following</a>
+                {{else}}
+                  <a id="follow" class="btn btn-color3" href="javascript:void(0);">Follow</a>
+                {{/if}}
+                {{#if userIsAdmin}}
+                  <a class="btn btn-color" href="/editProject/{{id}}">Edit Profile</a>
+                {{/if}}
+              </div>
+              <div>
+                <p>{{numFollowers}} Followers</p>
+              </div>
+            </div>
+            <div class="span6">
+                <div class="side-img">
+                  <img src="{{pictureUrl}}">
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>  
+    </div><!-- end: portfolio-item -->
+    <!-- start: lastest-work -->
+    <div class="section-wrapper2 lastest-work">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
             <div class="separator">
               <div class="left">
                 <div class="lines">
                   <div>
-                  <h2 class="lines-title">Bio</h2>
+                  <h2 class="lines-title">Team</h2>
                   </div>
                 </div>
               </div>
-            </div>          
-
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati et sapiente minima illum modi adipisci culpa sunt neque vitae deleniti nulla magnam eum tempora rem sed assumenda quod nemo voluptatum?</p>  
-
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorum aperiam a sapiente perspiciatis minus maiores facere velit veniam ex aliquid. Laudantium soluta iusto tenetur eaque culpa veritatis doloremque harum tempora!</p>
+            </div>  
           </div>
-
-          <div class="portfolio-info">
-            <a class="btn btn-color" href="#">visit site</a>
-            <a class="btn btn-color3" href="#">Follow</a>
-            <a class="btn btn-color" href="#">Edit Profile</a>
-          </div>
-
-          
-            
-          
-
-        </div>    
-
-        <div class="span6">
-            <div class="side-img">
-              <img src="assets/images/photos/app-3.png" alt="Photo-Work-3">
-            </div>
-            
-        </div>  
-
-    
-
-      </div>
-    </div>
-  </div>  
-</div><!-- end: portfolio-item -->
-
-
-<!-- start: lastest-work -->
-<div class="section-wrapper2 lastest-work">
-  <div class="container">
-    <div class="row">
-      <div class="span12">
-        <div class="separator">
-          <div class="left">
-            <div class="lines">
-              <div>
-              <h2 class="lines-title">Team</h2>
+          {{#each team}}
+            <div class="span3">
+              <div class="white-content">
+                <div class="img-mask hover-mask">
+                  <img src="{{pictureUrl}}">
+                  <div class="flip-container">
+                    <div class="flipper">
+                      <div class="back">
+                        <div class="flip-b">
+                          <a href="/people/{{id}}">
+                            <span class="icon-back"><i class="icon-plus-sign"></i></span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
+                </div>              
+                <a href="/people/{{id}}">
+                  <h5>{{firstName}} {{lastName}}<span class="white-title"><i class="icon-plus"></i></span></h5>
+                </a>
+                <a href="/people/{{id}}"><h5>{{major}} | {{year}}<span class="white-title"></span></h5></a>
+                <p>{{bio}}</p>
               </div>
             </div>
-          </div>
-        </div>  
-      </div>
-      <div class="span3">
-        <div class="white-content">
-          <div class="img-mask hover-mask">
-            <img src="assets/images/photos/team-1.jpg" alt="Photo-Work-1">
-            <div class="flip-container">
-              <div class="flipper">
-                <div class="back">
-                  <div class="flip-b">
-                    <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
-          </div>              
-          <a href="#"><h5>Chris MacPherson<span class="white-title"><i class="icon-plus"></i></span></h5></a>
-          <a href="#"><h5>Finance | 2014<span class="white-title"></span></h5></a>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>
+          {{/each}}          
         </div>
       </div>
-      <div class="span3">
-        <div class="white-content">
-          <div class="img-mask hover-mask">
-            <img src="assets/images/photos/team-2.png" alt="Photo-Work-2">
-            <div class="flip-container">
-              <div class="flipper">
-                <div class="back">
-                  <div class="flip-b">
-                    <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
-                  </div>
-                </div>
-              </div>
-            </div>              
-            <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>          
-          </div>
-          <a href="#"><h5>Andrew Linfoot<span class="white-title"><i class="icon-plus"></i></span></h5></a>
-          <a href="#"><h5>Industrial Engineering | 2014<span class="white-title"></span></h5></a>     
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>      
-        </div>
-      </div>
-      <div class="span3">
-        <div class="white-content">
-          <div class="img-mask hover-mask">
-            <img src="assets/images/photos/team-3.png" alt="Photo-Work-3">
-            <div class="flip-container">
-              <div class="flipper">
-                <div class="back">
-                  <div class="flip-b">
-                    <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
-                  </div>
-                </div>
-              </div>
-            </div>              
-            <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
-          </div>
-          <a href="#"><h5>Jeremy Meyer<span class="white-title"><i class="icon-plus"></i></span></h5></a>
-          <a href="#"><h5>Computer Science | 2015<span class="white-title"></span></h5></a> 
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>            
-        </div>
-      </div>
-      <div class="span3">
-        <div class="white-content">
-          <div class="img-mask hover-mask">
-            <img src="assets/images/photos/team-4.png" alt="Photo-Work-4">
-            <div class="flip-container">
-              <div class="flipper">
-                <div class="back">
-                  <div class="flip-b">
-                    <a href="#"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
-                  </div>
-                </div>
-              </div>
-            </div>              
-            <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
-          </div>
-          <a href="#"><h5>Steve Webster<span class="white-title"><i class="icon-plus"></i></span></h5></a>
-          <a href="#"><h5>Sales Management | 2016<span class="white-title"></span></h5></a> 
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas elementum iaculis elit non posuere. Duis.</p>            
-        </div>
-      </div>            
-    </div>
-  </div>
-</div><!-- end: lastest-work -->
-
+    </div><!-- end: lastest-work -->
+  {{/with}}
 </template>
 
 <template name="editProject">
