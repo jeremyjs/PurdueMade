@@ -5,6 +5,7 @@ Projects = new Meteor.Collection('projects');
 if (Meteor.isClient) {
   Meteor.startup(function(){
     Session.setDefault('page', 'home');
+    Session.setDefault('profileId', '0');
   });
 
   Router.configure({
@@ -21,19 +22,8 @@ if (Meteor.isClient) {
     this.route('person', {
       path: '/people/:id',
       template: 'person',
-      data: function() {
-        person = People.find({id: parseInt(this.params.id, 10)}).fetch();
-        return {
-          id: person.id,
-          name: person.name,
-          major: person.major,
-          year: person.year,
-          bio: person.bio,
-          interest: person.interest,
-          projects: person.projects,
-          pictureUrl: person.pictureUrl,
-          profileUrl: person.profileUrl
-        };
+      before: function() {
+        Session.set('profileId', parseInt(this.params.id));
       }
     });
     this.route('projects', {
@@ -42,7 +32,10 @@ if (Meteor.isClient) {
     });
     this.route('project', {
       path: '/projects/:id',
-      template: 'project'
+      template: 'project',
+      before: function() {
+        Session.set('profileId', parseInt(this.params.id));
+      }
     });
   });
 
@@ -51,6 +44,13 @@ if (Meteor.isClient) {
   };
   Template.homeProjects.projects = function(){
     return Projects.find({}, {limit: 4});
+  };
+
+  Template.person.person = function(){
+    return People.findOne({id: Session.get('profileId')});
+  };
+  Template.project.project = function(){
+    return Projects.findOne({id: Session.get('profileId')});
   };
 
   Template.people.people = function(){
