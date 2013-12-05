@@ -1784,7 +1784,8 @@ hr {
 }
 
 .section-portfolio img {
-    max-width: 88%;
+    max-width: 100%;
+    min-width: 270px;
 }
 .section-portfolio .picture {
     margin:10px;
