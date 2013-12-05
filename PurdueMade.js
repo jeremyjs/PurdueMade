@@ -9,6 +9,7 @@ if (Meteor.isClient) {
     Session.setDefault('page', 'home');
     Session.setDefault('profileId', '0');
     Session.setDefault('userId', '0');
+    Session.setDefault('projectId', '0');
   });
 
   Router.configure({
@@ -32,6 +33,10 @@ if (Meteor.isClient) {
         Session.set('profileId', parseInt(this.params.id));
       }
     });
+    this.route('updateProfile', {
+      path: '/updateProfile',
+      template: 'updatePerson'
+    });
     this.route('projects', {
       path: '/projects',
       template: 'projects'
@@ -45,6 +50,7 @@ if (Meteor.isClient) {
     });
   });
 
+  // Home Template Helpers
   Template.homePeople.people = function(){
     return People.find({id: {$lte: 4}}, {limit: 4});
   };
@@ -52,6 +58,7 @@ if (Meteor.isClient) {
     return Projects.find({}, {limit: 4});
   };
 
+  // Person Template Helpers
   Template.feed.feed = function(){
     // Clear feed
     Meteor.call('clearFeed');
@@ -78,6 +85,20 @@ if (Meteor.isClient) {
   Template.person.person = function(){
     return People.findOne({id: Session.get('profileId')});
   };
+  Template.updatePerson.events({
+    'click #save' : function(){
+      person = {};
+      person._id = People.findOne({id: Session.get('profileId')})._id;
+      person.major = $('#major').value();
+      person.year = $('#year').value();
+      person.bio = $('#bio').value();
+      interests = [];
+      // for each interest, interests.push(interest);
+      person.interests = interests;
+      Meteor.call('savePerson', person);
+      Router.go('person', {id: Session.get('userId')});
+    }
+  });
 
   // Project Template Helpers
   Template.project.project = function(){
@@ -111,6 +132,23 @@ if (Meteor.isClient) {
     }
   });
 
+  // Edit Project Template Helpers
+  Template.editProject.events({
+    'click #save' : function(){
+      project = {};
+      project._id = Projects.findOne({id: Session.get('projectId')})._id;
+      project.name = $('#name').value();
+      project.type = $('#type').value();
+      project.pictureUrl = $('#pictureUrl').value();
+      project.description = $('#description').value();
+      team = [];
+      // for each team member, team.push(person);
+      project.team = team;
+      Meteor.call('saveProject', project);
+      Router.go('project', {id: Session.get('projectId')});
+    }
+  });
+
   // People Template Helpers
   Template.people.people = function(){
     return People.find();
@@ -140,7 +178,6 @@ if (Meteor.isClient) {
 
   onLinkedInProfile = function(profile) {
     profile = profile.values[0];
-    // console.log(profile);
     skills = [];
     for(var i=0; i < profile.skills.values.length; i++){
       skills[skills.length] = profile.skills.values[i].skill.name;
@@ -156,15 +193,13 @@ if (Meteor.isClient) {
     if(People.find({memberId: profile.id}).count() === 0){
       People.insert(p);
     }
+    Router.go('updateProfile', {id: Session.get('userId')});
   };
 
   onLinkedInProfileError = function(err) {
     console.log(err);
   };
 
-  onLinkedInUpdate = function(result) {
-    alert(result);
-  };
 }
 
 if (Meteor.isServer) {
@@ -176,6 +211,23 @@ if (Meteor.isServer) {
     insertFeedItem : function(item) {
       Feed.insert(item);
     },
+    savePerson : function(person) {
+      People.update(person._id, {
+        major: person.major,
+        year: person.year,
+        bio: person.bio,
+        interests: person.interests
+      });
+    },
+    saveProject : function(project) {
+      Projects.update(project._id, {
+        name: project.name,
+        type: project.type,
+        pictureUrl: project.pictureUrl,
+        description: project.description,
+        team: project.team
+      });
+    },
     clearPictures : function() {
       Pictures.remove({});
     },
@@ -183,7 +235,7 @@ if (Meteor.isServer) {
       Pictures.insert(item);
     },
     followProject : function(projectId, userId) {
-      Projects.update(projectId, {$push: {followers: userId}});
+      Projects.update(projectId, {$push: {$each: [{followers: userId}], $sort: 1}});
     }
   });
 
@@ -213,7 +265,7 @@ if (Meteor.isServer) {
 			major:'Finance',
 			year: 2014,
 			bio:'Chris raised his first round of investment capital when he was nineteen. He is a wizard with a spreadsheet and understands how to make sure money is always flowing to the right place. He happens to be a kick ass graphic designer and has designed products that have grossed thousands in sales.',
-			interest: 'Design',
+			interests: ['Design'],
 			projects: ['Cloudware'],
 			pictureUrl: '/images/photos/team-1.png',
       created: '2011-12-04'
@@ -235,7 +287,7 @@ if (Meteor.isServer) {
 			major:'Computer Science',
 			year: 2015,
 			bio:'Jeremy has been programming since he was 14 years old. He has a passion for developing quality software and has experience ranging from database design to front-end user experience and everything in between.',
-			interest: 'Software',
+			interests: ['Software'],
 			projects: ['Cloudware'],
 			pictureUrl: '/images/photos/team-3.png',
       created: '2012-12-04'
@@ -246,7 +298,7 @@ if (Meteor.isServer) {
 			major:'Sales Management',
 			year: 2016,
 			bio:'Steve has a vast array of experience from serving on Hobart College’s budget committee to doing a stint as a production manager for the Wendy WIlliams Show. He has a passion for music and can shred on guitar.',
-			interest: 'Business',
+			interests: ['Business'],
 			projects: ['Cloudware'],
 			pictureUrl: '/images/photos/team-4.png',
       created: '2013-12-02'
