@@ -471,7 +471,41 @@ text-align: center;
 
 
 }
+.media:first-child{
+    
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    
+}
+.media{
+    margin: auto;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+   
+}
 
+.media-heading{
+    font-weight: bolder;
+    border-bottom: 1px solid #C5C4C0;
+    padding-bottom: 5px;
+}
+
+.media:hover{
+    
+    opacity: 0.7;
+    color: #ffffff;
+     background: #979590;
+     
+     -webkit-transition: 0.4s;
+-moz-transition: 0.4s;
+-o-transition: 0.4s;
+-ms-transition: 0.4s;
+transition: 0.4s;
+}
 
 .lines div {
     display: table-cell;
