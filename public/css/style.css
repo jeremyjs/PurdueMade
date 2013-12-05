@@ -523,12 +523,20 @@ text-align: center;
 
 /* ===== #home ===== */
 
+.side-pic2{
 
+}
 .section-wrapper.lastest-work {
     background-color: #F5F5F5;
     background-image: none;
 }
 .section-wrapper {
+    padding-bottom: 0px;
+    padding-top: 50px;
+
+}
+
+.section-wrapper2 {
     padding-bottom: 0px;
     padding-top: 0px;
 
@@ -544,6 +552,29 @@ text-align: center;
     border-radius: 0px;
     margin-bottom: 20px;
     padding: 10px;
+}
+.white-content2 {
+    background-color: none;
+    background-image: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0px;
+    margin-bottom: 20px;
+    
+    text-align: center;
+    font-size: 60px;
+}
+
+.white-content3 {
+    background-color: none;
+    background-image: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    border-radius: 0px;
+    margin-bottom: 20px;
+    
+    text-align: center;
+    font-size: 60px;
 }
 .white-content h5 {
     border-bottom: 1px solid #E4E4E4;
@@ -1281,7 +1312,7 @@ box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3) inset;
 }
 .section-blog .separator {
     margin-bottom: 0;
-    margin-top: 30px;
+    margin-top: 1px;
 }
 .section-blog .popular{
     border-bottom: 1px solid #E8E7EA;
@@ -1313,12 +1344,8 @@ box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3) inset;
 }
 .section-blog .side-tag{
     border-radius: 2px 2px 2px 2px;
-    background-color: #111111;
-    background-image: -webkit-linear-gradient(#111111, #111111);
-    background-image: -moz-linear-gradient(#111111, #111111);
-    background-image: -o-linear-gradient(#111111, #111111);
-    background-image: -ms-linear-gradient(#111111, #111111);
-    background-image: linear-gradient(#111111, #111111); 
+    background-color: #7A7977;
+     
     color: #FFFFFF;
     text-decoration: none;
     padding: 5px;
