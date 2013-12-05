@@ -58,7 +58,7 @@ if (Meteor.isClient) {
     return Session.get('loggedIn');
   };
   Template.homePeople.people = function(){
-    return People.find({id: {$lte: 4}}, {limit: 4});
+    return People.find({}, {limit: 4});
   };
   Template.homeProjects.projects = function(){
     return Projects.find({}, {limit: 4});

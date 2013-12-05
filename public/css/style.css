@@ -1784,8 +1784,11 @@ hr {
 }
 
 .section-portfolio img {
-    max-width: 100%;
-    min-width: 270px;
+    min-width: 100px;
+    max-width: 100px;
+    min-height: 100px;
+    max-height: 100px;
+
 }
 .section-portfolio .picture {
     margin:10px;
