@@ -256,7 +256,7 @@ if (Meteor.isClient) {
     }
     else{
       Session.set('firstLogin', false);
-      Router.go('feed');
+      Router.go('home');
     }
   };
 

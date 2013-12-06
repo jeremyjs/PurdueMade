@@ -55,16 +55,13 @@
         <a data-toggle="collapse" data-target=".nav-collapse" class="btn btn-navbar">
           <span><i class="icon-reorder"></i></span>
         </a>
-            {{#if loggedIn}}
-        <a class="brand" href="/feed"><span><i class="icon-stop"></i></span>PurdueMade</a>
-            {{else}}
         <a class="brand" href="/"><span><i class="icon-stop"></i></span>PurdueMade</a>
-            {{/if}}
         <div id="top-navigation" class="nav-collapse subnav-collapse collapse ">
           <ul class="nav pull-right">
             {{#if loggedIn}}
               <li class="top-account visible-desktop"><a id="peopleButton" class="top-sign-in" href="/people">People</a></li>
               <li class="top-account visible-desktop"><a id="projectsButton" class="top-sign-in" href="/projects">Projects</a></li>
+              <li class="top-account visible-desktop"><a id="feedButton" class="top-sign-in" href="/feed">News Feed</a></li>
             {{else}}
               <li class="top-account visible-desktop"><a id="peopleButton" class="top-sign-in" href="#myModal" data-toggle="modal">People</a></li>
               <li class="top-account visible-desktop"><a id="projectsButton" class="top-sign-in" href="#myModal" data-toggle="modal">Projects</a></li>
@@ -118,9 +115,13 @@
           <div class="span3">
             <div class="white-content">
               <div class="img-mask hover-mask">
-                        <a href="#myModal" data-toggle="modal">
-                <img src="{{pictureUrl}}">
-                        </a>
+                {{#if loggedIn}}
+                  <a href="#myModal" data-toggle="modal">
+                {{else}}
+                  <a href="/projects/{{id}}">
+                {{/if}}
+                  <img src="{{pictureUrl}}">
+                </a>
                 <span class="hover-fade"></span>          
               </div>              
               <a href="#myModal" data-toggle="modal">
@@ -156,9 +157,13 @@
           <div class="span3">
             <div class="white-content">
               <div class="img-mask hover-mask">
-                        <a href="#myModal" data-toggle="modal">
-                <img src="{{pictureUrl}}">
-                        </a>
+                {{#if loggedIn}}
+                  <a href="#myModal" data-toggle="modal">
+                {{else}}
+                  <a href="/people/{{id}}">
+                {{/if}}
+                  <img src="{{pictureUrl}}">
+                </a>
                 <span class="hover-fade"></span>          
               </div>              
               <a href="#myModal" data-toggle="modal">
@@ -247,7 +252,7 @@
         <div class="span12">
           <div class="row spacey">
             {{#each people}}
-              <div class="span2">
+              <div class="span3">
                 <div class="white-content">
                   <div class="img-mask hover-mask">
                     <img src="{{pictureUrl}}">
