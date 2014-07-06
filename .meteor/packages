@@ -6,12 +6,4 @@
 standard-app-packages
 autopublish
 insecure
-preserve-inputs
-bootstrap
 iron-router
-accounts-base
-accounts-ui
-linkedin
-modernizr
-accounts-linkedin
-jquery

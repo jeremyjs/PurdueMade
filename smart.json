@@ -1,7 +1,5 @@
 {
   "packages": {
-    "iron-router": {},
-    "isotope": {},
-    "linkedin": {}
+    "iron-router": {}
   }
 }

@@ -1,0 +1,39 @@
+<template name="feed">
+  <div class="container">
+    <div class="row">
+      <div class="span8 offset2">
+        <div id="feed">
+          <h2 class="pagination-centered"> Recent Activity </h2>
+          <ul class="media-list">
+            {{#each feed}}
+              <li class="media">
+                {{#if isPerson}}
+                  <a class="pull-left" href="/people/{{id}}">
+                    <img class="media-object" src="{{pictureUrl}}" width="64px">
+                  </a>
+                {{else}}
+                  <a class="pull-left" href="/projects/{{id}}">
+                    <img class="media-object" src="{{pictureUrl}}" width="64px">
+                  </a>
+                {{/if}}
+                <div class="media-body">
+                  {{#if isPerson}}
+                    <h4 class="media-heading">{{firstName}} {{lastName}} Recently Joined PurdueMade</h4>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, vero soluta deleniti in dicta ipsa rem optio doloribus ipsam cumque! Sint, reiciendis, voluptatem nulla similique molestias et nesciunt fugit distinctio.
+                    </p>
+                  {{else}}
+                    <h4 class="media-heading">{{name}} Was Recently Added to PurdueMade</h4>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Itaque, vero soluta deleniti in dicta ipsa rem optio doloribus ipsam cumque! Sint, reiciendis, voluptatem nulla similique molestias et nesciunt fugit distinctio.
+                    </p>
+                  {{/if}}
+                </div>
+              </li>
+            {{/each}}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

@@ -1,0 +1,41 @@
+<template name="homeProjects">
+  <!-- start: lastest-work -->
+  <div class="section-wrapper lastest-work">
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <div class="separator">
+            <div class="left">
+              <div class="lines">
+                <div>
+                <h2 class="lines-title">Featured Projects</h2>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {{#each projects}}
+          <div class="span3">
+            <div class="white-content">
+              <div class="img-mask hover-mask">
+                <!--
+                {{#if loggedIn}}
+                  <a href="#myModal" data-toggle="modal">
+                -->
+                <a href="/projects/{{id}}">
+                  <img src="{{pictureUrl}}">
+                </a>
+                <span class="hover-fade"></span>
+              </div>
+              <a href="#myModal" data-toggle="modal">
+                <h5>{{name}}<span class="white-title"><i class="icon-plus"></i></span></h5>
+              </a>
+              <p>{{description}}</p>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    </div>
+  </div><!-- end: lastest-work -->
+  <!-- {{> loginModal}} -->
+</template>

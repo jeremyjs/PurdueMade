@@ -1,0 +1,65 @@
+<template name="people">
+  <!-- start: title -->
+  <div class="page-title">
+    <div class="section-wrapper">
+      <div class="container">
+        <h2>PEOPLE</h2>
+      </div>
+    </div>
+  </div><!-- end: title -->
+  <!-- start: portfolio -->
+  <div class="section-portfolio">
+    <div class="select-portfolio">
+      <div class="container">
+        <div class="row">
+          <div class="span12">
+            <div id="options">
+                <ul id="filters" class="option-set" data-option-key="filter">
+                  <li><a class="btn btn-color tag selected" href="#filter" data-option-value="*">All</a></li>
+                  <li><a class="btn btn-color tag" href="#filter" data-option-value=".Software">Software</a></li>
+                  <li><a class="btn btn-color tag" href="#filter" data-option-value=".Design">Design</a></li>
+                  <li><a class="btn btn-color tag" href="#filter" data-option-value=".Business">Business</a></li>
+                </ul>
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div class="span12">
+          <div class="row spacey">
+            {{#each people}}
+              <div class="span3">
+                <div class="white-content">
+                  <div class="img-mask hover-mask">
+                    <img src="{{pictureUrl}}">
+                    <div class="flip-container">
+                      <div class="flipper">
+                        <div class="back">
+                          <div class="flip-b">
+                            <a href="/people/{{id}}">
+                              <span class="icon-back"><i class="icon-plus-sign"></i></span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
+                  </div>
+                  <a href="/people/{{id}}">
+                    <h5>{{firstName}} {{lastName}}<span class="white-title"><i class="icon-plus"></i></span></h5>
+                  </a>
+                  <a href="/people/{{id}}">
+                    <h5>{{major}} | {{year}}<span class="white-title"></span></h5>
+                  </a>
+                  <p>{{bio}}</p>
+                </div>
+              </div>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- end: portfolio-->
+</template>
