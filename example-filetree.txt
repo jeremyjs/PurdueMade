@@ -1,0 +1,73 @@
+
+.meteor/
+bin/                        # generic command-line scripts
+client/
+  accounts/
+    accounts.js
+  compatibility/            # libraries that expose a global
+  lib/                      # libraries that don't expose a global
+    helpers.js              # client-only helpers
+  stylesheets/              # global stylesheets
+    lib/                    # libraries that don't have a package
+    global.scss
+    mixins.scss
+    variables.scss
+  views/
+    components/             # view partials that are reused
+      item/
+        item.html
+        item.js
+        item.scss
+      login_form/
+        login_form.html
+        login_form.js
+        login_form.scss
+    layout/
+      layout.html
+      footer.html
+      header.html
+    items/                  # each page is treated as a module
+      items.html
+      items.js
+      items.scss
+    dashboard/
+      dashboard.html
+      dashboard.js
+      dashboard.scss
+    home/
+      home.html
+      home.js
+      home.scss
+    login/
+      login.html
+      login.js
+      login.scss
+    main.html               # head goes here
+    not_found.html
+    loading.html
+  config.js                 # client-only configuration
+  seo.js
+collections/
+  items.js
+lib/
+  helpers.js                # global helpers
+node_modules/
+public/
+  fonts/
+  images/
+  robots.txt
+router/
+  config.js                 # router configuration
+  routes.js                 # client-side routing (for fast render)
+server/
+  routes/                   # api routes
+    item.js
+  lib/helpers.js            # server-only helpers
+  accounts.js
+  email.js
+  permissions.js
+  publications.js
+  seeds.js
+.gitignore
+LICENSE
+README.md
