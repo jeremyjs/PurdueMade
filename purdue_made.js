@@ -1,5 +1,4 @@
 if (Meteor.isServer) {
-  UI._allowJavascriptUrls()
   Meteor.methods({
     clearFeed : function() {
       Feed.remove({});
