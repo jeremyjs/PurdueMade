@@ -80,7 +80,7 @@ if (Meteor.isServer) {
       pictureUrlList: ['/images/projects/app-1.png'],
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
       team: ['1', '2', '3'],
-      followers: [{id: '1'}, {id: '3'}],
+      followers: ['1', '3'],
       created: '2013-10-28'
     });
     Projects.insert({
@@ -91,7 +91,7 @@ if (Meteor.isServer) {
       pictureUrlList: ['/images/projects/app-2.png'],
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
       team: ['2', '3'],
-      followers: [{id: '2'}, {id: '4'}, {id: '3'}],
+      followers: ['2', '4', '3'],
       created: '2012-12-04'
     });
     Projects.insert({
@@ -102,7 +102,7 @@ if (Meteor.isServer) {
       pictureUrlList: ['/images/projects/app-3.png'],
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
       team: ['2', '3', '4'],
-      followers: [{id: '2'}, {id: '1'}],
+      followers: ['2', '1'],
       created: '2013-05-21'
     });
     Projects.insert({
@@ -113,7 +113,7 @@ if (Meteor.isServer) {
       pictureUrlList: ['/images/projects/app-4.png'],
       description: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quae, voluptatem porro est adipisci dolor numquam culpa accusamus corrupti fugiat id. Ullam voluptatem aspernatur vel voluptatibus consequuntur reprehenderit praesentium eius animi?',
       team: ['1', '2', '3', '4'],
-      followers: [{id: '4'}],
+      followers: ['4'],
       created: '2013-12-04'
     });
   }); // end Meteor.startup

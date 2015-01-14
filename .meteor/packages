@@ -9,3 +9,5 @@ insecure
 iron:router
 pauli:accounts-linkedin
 less
+dburles:collection-helpers
+khamoud:linkedin-api

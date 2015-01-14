@@ -1,25 +1,32 @@
 
-// Project Template Helpers
-Template.project.project = function(){
-  return Projects.findOne({id: Session.get('profileId')});
-};
-Template.project.team = function(){
-  project = Projects.findOne({id: Session.get('profileId')});
-  return People.find({id: {$in: project.team}});
-};
-Template.project.following = function(){
-  followers =  Projects.findOne({id: Session.get('profileId')}).followers;
-  console.log(followers.indexOf({id: Session.get('userId')}));
-  if(followers.indexOf({id: Session.get('userId')}) >= 0){
-    return true;
-  }
-  else{
-    return false;
-  }
-};
-Template.project.numFollowers = function(){
-  return Projects.findOne({id: Session.get('profileId')}).followers.length;
-};
+Template.project.helpers({
+
+  project: function(){
+    return Projects.findOne({id: Session.get('profileId')});
+  },
+
+  team: function(){
+    project = Projects.findOne({id: Session.get('profileId')});
+    return People.find({id: {$in: project.team}});
+  },
+
+  following: function(){
+    followers =  Projects.findOne({id: Session.get('profileId')}).followers;
+    console.log(followers.indexOf({id: Session.get('userId')}));
+    if(followers.indexOf({id: Session.get('userId')}) >= 0){
+      return true;
+    }
+    else{
+      return false;
+    }
+  },
+
+
+
+});
+
+Template.project.;
+
 Template.project.events({
   'click #follow' : function(){
     Meteor.call('followProject', Session.get('profileId'), Session.get('userId'));
