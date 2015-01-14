@@ -1,43 +1,20 @@
-// People Template Helpers
-Template.people.people = function(){
-  return People.find();
-};
 
-// Person Template Helpers
-Template.person.person = function(){
-  return People.findOne({id: Session.get('profileId')});
-};
-Template.person.projects = function(){
-  person = People.findOne({id: Session.get('profileId')});
-  if(person.projects){
-    return Projects.find({id: {$in: person.projects}});
-  }
-  else{
-    return [];
-  }
-};
-Template.editProfile.events({
-  'click #save' : function(){
-    person = {};
-    person._id = People.findOne({id: Session.get('profileId')})._id;
-    person.major = $('#major').value();
-    person.year = $('#year').value();
-    person.bio = $('#bio').value();
-    interests = [];
-    // for each interest, interests.push(interest);
-    for(var i=0; i < 6; i++){
-      // loop
-    }
-    person.interests = interests;
-    Meteor.call('savePerson', person);
-    if(Session.get('firstLogin')){
-      Session.set('firstLogin', false);
-      Router.go('feed');
+Template.person.helpers({
+
+  person: function(){
+    return People.findOne({id: Session.get('profileId')});
+  },
+
+  projects: function(){
+    person = People.findOne({id: Session.get('profileId')});
+    if(person.projects){
+      return Projects.find({id: {$in: person.projects}});
     }
     else{
-      Router.go('person', {id: Session.get('userId')});
+      return [];
     }
   },
+
   'click #sendMessage' : function(){
     person = People.findOne({id: Session.get('profileId')});
     jsonString = JSON.stringify({
@@ -58,6 +35,7 @@ Template.editProfile.events({
         }
       }
     });
+
     // REST call to send message
     IN.API.Raw("/people/~/mailbox")
           .method("POST")
@@ -67,3 +45,4 @@ Template.editProfile.events({
   }
 
 });
+

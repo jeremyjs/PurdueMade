@@ -15,8 +15,8 @@
         <form method="post">
           <div class="clearfix">
             <div class="input">
-              <input id="major" type="text" placeholder="Major or Field of Study" class="span3">
-              <input id="year" type="text" placeholder="Graduation Year" class="span3">
+              <input id="major" type="text" placeholder="Major or Field of Study" class="span3" value="{{major}}">
+              <input id="year" type="text" placeholder="Graduation Year" value="{{year}}" class="span3">
             </div>
           </div>
           <span class="visual"><i class="icon-user"></i></span>
@@ -35,7 +35,9 @@
             </div>
           </div>
           <div class="field clearfix">
-            <textarea id="bio" placeholder="Tell the community about yourself" class="text textarea"></textarea>
+            <textarea id="bio" placeholder="Tell the community about yourself" class="text textarea">
+              {{bio}}
+            </textarea>
           </div>
           <div class="actions">
             <button tabindex="3" id="save" class="btn btn-color">Update</button>
