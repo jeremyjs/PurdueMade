@@ -1,4 +1,11 @@
 
+Template.person.rendered = function() {
+  if(Session.get('profileId') === '~') {
+    Session.set('profileId', Session.get('userId'));
+  }
+};
+
+
 Template.person.helpers({
 
   person: function(){

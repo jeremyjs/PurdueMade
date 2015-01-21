@@ -13,8 +13,7 @@ Meteor.methods({
     People.update(person._id, {
       major: person.major,
       year: person.year,
-      bio: person.bio,
-      interests: person.interests
+      bio: person.bio
     });
   },
 

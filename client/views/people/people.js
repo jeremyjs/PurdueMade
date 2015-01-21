@@ -1,6 +1,6 @@
 
 Template.people.helpers({
-  people: function(){
+  people: function() {
     return People.find();
   }
 });

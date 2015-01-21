@@ -1,11 +1,8 @@
 
-People = new Meteor.Collection('people');
 Projects = new Meteor.Collection('projects');
 Feed = new Meteor.Collection('feed');
 Skills = new Meteor.Collection('skills');
 Interests = new Meteor.Collection('interests');
-PersonProjects = new Meteor.Collection('personProjects');
-Pictures = new Meteor.Collection('pictures');
 
 if (Meteor.isServer) {
   Meteor.startup(function() {
