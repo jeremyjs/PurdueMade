@@ -7,13 +7,10 @@ Template.editPerson.events({
     console.log('before: ', person);
     person.update({
       major: $('#major').val(),
-      year: $('#year').val(),
-      bio: $('#bio').val()
+      year: $('#year').val()
     });
 
-    return;
-
-    Router.go('people/me');
+    Router.go('/people/me');
   }
 
 });
