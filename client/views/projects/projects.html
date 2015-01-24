@@ -1,63 +1,42 @@
 <template name="projects">
-  <!-- start: title -->
-  <div class="page-title">
-    <div class="section-wrapper">
-      <div class="container">
-        <h2>PROJECTS</h2>
-      </div>
-    </div>
-  </div><!-- end: title -->
-  <!-- start: portfolio -->
-  <div class="section-portfolio">
-<!--     <div class="select-portfolio">
-      <div class="container">
+  <section id="portfolio" class="page">
+    <div class="container">
+      <div class="content text-center">
+        <div class="heading">
+          <h2>Featured Projects</h2>
+          <p>Here are some of the cool projects being created at Purdue</p>
+        </div>
         <div class="row">
-          <div class="span12">
-            <div id="options">
-              <ul id="filters" class="option-set" data-option-key="filter">
-                <li><a class="btn btn-color tag " href="#filter" data-option-value="*" class="selected">All</a></li>
-                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Software">Software</a></li>
-                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Design">Design</a></li>
-                <li><a class="btn btn-color tag " href="#filter" data-option-value=".Business">Business</a></li>
+          <div class="col-md-12">
+            <div id="gallery">
+              <!-- <ul class="filters list-inline">
+                <li>
+                  <a class="active" data-filter="*" href="#">All</a>
+                </li>
+                <li>
+                  <a data-filter=".web" href="#">Web</a>
+                </li>
+                <li>
+                  <a data-filter=".graphic" href="#">Mobile</a>
+                </li>
+                <li>
+                  <a data-filter=".photography" href="#">Engineering</a>
+                </li>
+              </ul> -->
+              <ul class="items list-unstyled clearfix">
+                {{#each projects}}
+                <li class="item web">
+                  <a href="/projects/{{id}}" title="{{name}}">
+                    <img src="{{pictureUrl}}" alt="{{name}}">
+                    <div class="overlay"><span>{{name}}</span></div>
+                  </a>
+                </li>
+                {{/each}}
               </ul>
             </div>
           </div>
         </div>
       </div>
-    </div> -->
-    <div class="container">
-      <div class="row">
-        <div class="span12">
-          <!--start: container -->
-          <div class="row spacey">
-            {{#each projects}}
-              <div class="span3">
-                <div class="white-content">
-                  <div class="img-mask hover-mask">
-                    <img src="{{pictureUrl}}">
-                    <div class="flip-container">
-                      <div class="flipper">
-                        <div class="back">
-                          <div class="flip-b">
-                            <a href="/projects/{{id}}">
-                              <span class="icon-back"><i class="icon-plus-sign"></i></span>
-                            </a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                    <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
-                  </div>
-                  <a href="/projects/{{id}}">
-                    <h5>{{name}}<span class="white-title"><i class="icon-plus"></i></span></h5>
-                  </a>
-                  <p>{{description}}</p>
-                </div>
-              </div>
-            {{/each}}
-          </div>
-        </div>
-      </div>
     </div>
-  </div><!-- end: portfolio-->
+  </section>
 </template>

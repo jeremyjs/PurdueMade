@@ -1,39 +1,17 @@
 <template name="homePeople">
-  <!-- start: lastest-work -->
-  <div class="section-wrapper lastest-work">
+  <section id="about" class="page">
     <div class="container">
-      <div class="row">
-        <div class="span12">
-          <div class="separator">
-            <div class="left">
-              <div class="lines">
-                <div>
-                <h2 class="lines-title">Featured People</h2>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="content text-center">
+        <div class="heading">
+          <h2>People</h2>
+          <p>Meet some of the cool people working on projects at Purdue</p>
         </div>
-        {{#each people}}
-          <div class="span3">
-            <div class="white-content">
-              <div class="img-mask hover-mask">
-                <a href="/people/{{id}}">
-                  <img src="{{pictureUrl}}">
-                </a>
-                <span class="hover-fade"></span>
-              </div>
-              <a href="#myModal" data-toggle="modal">
-                <h5>{{firstName}} {{lastName}}<span class="white-title"><i class="icon-plus"></i></span></h5>
-              </a>
-              <a href="#myModal" data-toggle="modal">
-                <h5>{{major}} | {{year}}<span class="white-title"></span></h5>
-              </a>
-              <p>{{bio}}</p>
-            </div>
-          </div>
-        {{/each}}
+        <div class="row">
+          {{#each people}}
+            {{> personBlurb}}
+          {{/each}}
+        </div>
       </div>
     </div>
-  </div><!-- end: lastest-work -->
+  </section>
 </template>

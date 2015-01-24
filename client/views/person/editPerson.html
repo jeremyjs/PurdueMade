@@ -1,33 +1,29 @@
 <template name="editPerson">
-  <!--start: send comment -->
-  <div class="container">
-    <div class="row">
-      <div class="span8 white-content post-form">
-        <div class="separator">
-          <div class="left">
-            <div class="lines">
-              <div>
-              <h2 class="lines-title">Edit Your profile</h2>
-              </div>
+  <section id="contact" class="page">
+    <div class="container">
+      <div class="content text-center">
+        <div class="heading">
+          <h2>Enter your Details</h2>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="form text-left">
+              <form role="form">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Major</label>
+                    <input type="text" class="form-control" placeholder="Major" value="{{major}}">
+                  </div>
+                  <div class="form-group">
+                    <label>Year</label>
+                    <input type="text" class="form-control" placeholder="Grad Year" value="{{year}}">
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-        <form method="post">
-          <div class="clearfix">
-            <p class="notice"></p>
-          </div>
-          <div class="clearfix">
-            <div class="input">
-              <input id="major" type="text" placeholder="Major or Field of Study" class="span3" value="{{major}}">
-              <input id="year" type="text" placeholder="Graduation Year" value="{{year}}" class="span3">
-            </div>
-          </div>
-          <span class="visual"><i class="icon-user"></i></span>
-          <div class="actions">
-            <button tabindex="3" id="save" class="btn btn-color">Update</button>
-          </div>
-        </form>
-      </div><!--end: send comment  -->
+      </div>
     </div>
-  </div>
+  </section>
 </template>

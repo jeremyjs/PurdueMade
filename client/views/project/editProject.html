@@ -1,93 +1,38 @@
 <template name="editProject">
   {{#with project}}
-    <!-- start: portfolio-item -->
-    <div class="section-portfolio-item">
-      <div class="section-wrapper">
-        <div class="container">
-          <div class="row">
-            <div class="span6">
-              <div class="">
-                <div class="separator">
-                  <div class="left">
-                    <div class="lines">
-                      <div>
-                        <h2 class="lines-title">About</h2>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p>{{description}}</p>
-              </div>
-              <div class="portfolio-info">
-                <a class="btn btn-color" href="{{url}}">visit site</a>
-              </div>
-            </div>
-            <div class="span6">
-              <div class="carousel slide " id="myCarousel">
-                <ol class="carousel-indicators">
-                  <li class="active" data-slide-to="0" data-target="#myCarousel"></li>
-                  <li data-slide-to="1" data-target="#myCarousel"></li>
-                  <li data-slide-to="2" data-target="#myCarousel"></li>
-                </ol>
-                <!-- Carousel items -->
-                <div class="carousel-inner">
-                  {{#each pictures}}
-                    {{#if firstItem}}
-                      <div class="active item"><img src="{{pictureUrl}}" width="100%"></div>
-                    {{else}}
-                      <div class="item"><img src="{{pictureUrl}}"></div>
-                    {{/if}}
-                  {{/each}}
-                </div>
-                <!-- Carousel nav -->
-                <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-                <a class="carousel-control right" href="#myCarousel" data-slide="next">&rsaquo;</a>
-              </div>
-            </div>
-          </div>
+  <section id="contact" class="page">
+    <div class="container">
+      <div class="content text-center">
+        <div class="heading">
+          <h2>Enter your Project Details</h2>
         </div>
-      </div>
-    </div><!-- end: portfolio-item -->
-
-    <!-- start: lastest-work -->
-    <div class="section-wrapper lastest-work">
-      <div class="container">
         <div class="row">
-          <div class="span12">
-            <div class="separator">
-              <div class="left">
-                <div class="lines">
-                  <div>
-                    <h2 class="lines-title">Team</h2>
+          <div class="col-lg-12">
+            <div class="form text-left">
+              <form role="form">
+                <div class="col-md-12">
+                  <div class="form-group">
+                    <label>Image Link</label>
+                    <!-- TODO: image upload -->
+                    <input type="text" class="form-control" placeholder="Link to your project's image" value="{{pictureUrl}}">
+                  </div>
+                  <div class="form-group">
+                    <label>Project Description</label>
+                    <textarea class="form-control" rows="10">{{description}}</textarea>
+                  </div>
+                  <div class="form-group">
+                    <!-- TODO: nice dropdown w/ thumbnails -->
+                    <label>Team Members</label>
+                    <select class="form-control input-sm">Test</select>
+                    <select class="form-control input-sm">Test2</select>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
           </div>
-          {{#each team}}
-            <div class="span3">
-              <div class="white-content">
-                <div class="img-mask hover-mask">
-                  <img src="{{pictureUrl}}" alt="Photo-Work-1">
-                  <div class="flip-container">
-                    <div class="flipper">
-                      <div class="back">
-                        <div class="flip-b">
-                          <a href="/people/{{id}}"><span class="icon-back"><i class="icon-plus-sign"></i></span></a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
-                </div>
-                <a href="/people/{{id}}"><h5>{{firstName}} {{lastName}}<span class="white-title"><i class="icon-plus"></i></span></h5></a>
-                <a href="/people/{{id}}"><h5>{{major}} | {{year}}<span class="white-title"></span></h5></a>
-                <p>{{bio}}</p>
-              </div>
-            </div>
-          {{/each}}
         </div>
       </div>
-    </div><!-- end: lastest-work -->
+    </div>
+  </section>
   {{/with}}
 </template>

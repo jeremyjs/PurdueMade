@@ -1,36 +1,37 @@
 <template name="homeProjects">
-  <!-- start: lastest-work -->
-  <div class="section-wrapper lastest-work">
+  <section id="portfolio" class="page">
     <div class="container">
-      <div class="row">
-        <div class="span12">
-          <div class="separator">
-            <div class="left">
-              <div class="lines">
-                <div>
-                <h2 class="lines-title">Featured Projects</h2>
-                </div>
-              </div>
+      <div class="content text-center">
+        <div class="heading">
+          <h2>Projects</h2>
+          <p>Here are some of the cool projects being created at Purdue</p>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div id="gallery">
+              <ul class="filters list-inline">
+                <li>
+                  <a class="active" data-filter="*" href="#">All</a>
+                </li>
+                <li>
+                  <a data-filter=".web" href="#">Web</a>
+                </li>
+                <li>
+                  <a data-filter=".graphic" href="#">Mobile</a>
+                </li>
+                <li>
+                  <a data-filter=".photography" href="#">Engineering</a>
+                </li>
+              </ul>
+              <ul class="items popup-gallery list-unstyled clearfix">
+                {{#each projects}}
+                  {{> projectBlurb}}
+                {{/each}}
+              </ul>
             </div>
           </div>
         </div>
-        {{#each projects}}
-          <div class="span3">
-            <div class="white-content">
-              <div class="img-mask hover-mask">
-                <a href="/projects/{{id}}">
-                  <img src="{{pictureUrl}}">
-                </a>
-                <span class="hover-fade"></span>
-              </div>
-              <a href="#myModal" data-toggle="modal">
-                <h5>{{name}}<span class="white-title"><i class="icon-plus"></i></span></h5>
-              </a>
-              <p>{{description}}</p>
-            </div>
-          </div>
-        {{/each}}
       </div>
     </div>
-  </div><!-- end: lastest-work -->
+  </section>
 </template>

@@ -1,98 +1,55 @@
 <template name="project">
   {{#with project}}
-    <!-- start: title -->
-    <div class="page-title">
-      <div class="section-wrapper">
-        <div class="container">
+  <!-- BEGIN SERVICE -->
+  <section id="services" class="page">
+    <div class="container">
+      <div class="content text-center">
+        <div class="heading">
+          <img src="{{pictureUrl}}" alt="{{name}}">
           <h2>{{name}}</h2>
+          <p>{{description}}</p>
         </div>
       </div>
-    </div><!-- end: title -->
-    <!-- start: portfolio-item -->
-    <div class="section-portfolio-item">
-      <div class="section-wrapper2">
-        <div class="container">
-          <div class="row">
-            <div class="span6">
-              <div class="">
-                <div class="separator">
-                  <div class="left">
-                    <div class="lines">
-                      <div>
-                        <h2 class="lines-title">About</h2>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <p>{{description}}</p>
-              </div>
-              <div class="portfolio-info">
-                <a class="btn btn-color" href="{{Url}}">Visit Site</a>
-                {{#if following}}
-                  <a id="unfollow" class="btn btn-color3 active" href="javascript:void(0);">Following</a>
-                {{else}}
-                  <a id="follow" class="btn btn-color3" href="javascript:void(0);">Follow</a>
-                {{/if}}
-                {{#if userIsAdmin}}
-                  <a class="btn btn-color" href="/editProject/{{id}}">Edit Profile</a>
-                {{/if}}
-              </div>
-              <div>
-                <p>{{numFollowers}} Followers</p>
-              </div>
-            </div>
-            <div class="span6">
-                <div class="side-img">
-                  <img src="{{pictureUrl}}">
-                </div>
-            </div>
-          </div>
+    </div>
+    <div class="portfolio-info">
+      <a class="btn btn-color" href="{{Url}}">Visit Site</a>
+      <p>{{numFollowers}} Followers</p>
+      {{#if following}}
+        <a id="unfollow" class="btn btn-color3 active" href="javascript:void(0);">Following</a>
+      {{else}}
+        <a id="follow" class="btn btn-color3" href="javascript:void(0);">Follow</a>
+      {{/if}}
+      {{#if userIsAdmin}}
+        <a class="btn btn-color" href="/editProject/{{id}}">Edit Profile</a>
+      {{/if}}
+    </div>
+  </section>
+  <section id="about" class="page">
+    <div class="container">
+      <div class="content text-center">
+        <div class="heading">
+          <h2>Team</h2>
         </div>
-      </div>
-    </div><!-- end: portfolio-item -->
-    <!-- start: lastest-work -->
-    <div class="section-wrapper2 lastest-work">
-      <div class="container">
         <div class="row">
-          <div class="span12">
-            <div class="separator">
-              <div class="left">
-                <div class="lines">
-                  <div>
-                  <h2 class="lines-title">Team</h2>
-                  </div>
-                </div>
-              </div>
+          {{#each team}}
+          <div class="col-md-3">
+            <div class="profile" >
+              <img src="{{pictureUrl}}" href="/people/{{id}}">
+              <!-- TODO: fullname -->
+              <span class="name">{{firstName}} {{lastName}}</span>
+              <span class="position">{{major}} | {{year}}</span>
+              <span class="position">{{position}}</span>
+              <span class="description">{{bio}}</span>
+              <span class="contact">
+                <a href="{{twitterUrl}}"><i class="fa fa-twitter"></i></a>
+                <a href="{{linkedinUrl}}"><i class="fa fa-linkedin"></i></a>
+              </span>
             </div>
           </div>
-          {{#each team}}
-            <div class="span3">
-              <div class="white-content">
-                <div class="img-mask hover-mask">
-                  <img src="{{pictureUrl}}">
-                  <div class="flip-container">
-                    <div class="flipper">
-                      <div class="back">
-                        <div class="flip-b">
-                          <a href="/people/{{id}}">
-                            <span class="icon-back"><i class="icon-plus-sign"></i></span>
-                          </a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <span class="hover-fade"><i class="icon-plus-sign icon-3x"></i></span>
-                </div>
-                <a href="/people/{{id}}">
-                  <h5>{{firstName}} {{lastName}}<span class="white-title"><i class="icon-plus"></i></span></h5>
-                </a>
-                <a href="/people/{{id}}"><h5>{{major}} | {{year}}<span class="white-title"></span></h5></a>
-                <p>{{bio}}</p>
-              </div>
-            </div>
           {{/each}}
         </div>
       </div>
-    </div><!-- end: lastest-work -->
+    </div>
+  </section>
   {{/with}}
 </template>

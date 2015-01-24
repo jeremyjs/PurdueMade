@@ -1,40 +1,37 @@
 <template name="people">
-  <!-- start: title -->
-  <div class="page-title">
-    <div class="section-wrapper">
-      <div class="container">
-        <h2>PEOPLE</h2>
-      </div>
-    </div>
-  </div><!-- end: title -->
-  <!-- start: portfolio -->
-  <div class="section-portfolio">
-    <div class="select-portfolio">
-      <div class="container">
-        <div class="row">
-          <div class="span12">
-            <div id="options">
-                <ul id="filters" class="option-set" data-option-key="filter">
-                  <li><a class="btn btn-color tag selected" href="#filter" data-option-value="*">All</a></li>
-                  <li><a class="btn btn-color tag" href="#filter" data-option-value=".Software">Software</a></li>
-                  <li><a class="btn btn-color tag" href="#filter" data-option-value=".Design">Design</a></li>
-                  <li><a class="btn btn-color tag" href="#filter" data-option-value=".Business">Business</a></li>
-                </ul>
-              </div>
-          </div>
-        </div>
-      </div>
-    </div>
+  <section id="about" class="page">
     <div class="container">
-      <div class="row">
-        <div class="span12">
-          <div class="row spacey">
-            {{#each people}}
-              {{> personBlurb}}
-            {{/each}}
+      <div class="content text-center">
+        <div class="heading">
+          <h2>Featured People</h2>
+          <p>Meet some of the cool people working on projects at Purdue</p>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div id="gallery">
+              <!-- <ul class="filters list-inline">
+                <li>
+                  <a class="active" data-filter="*" href="#">All</a>
+                </li>
+                <li>
+                  <a data-filter=".web" href="#">Web</a>
+                </li>
+                <li>
+                  <a data-filter=".graphic" href="#">Mobile</a>
+                </li>
+                <li>
+                  <a data-filter=".photography" href="#">Engineering</a>
+                </li>
+              </ul> -->
+            </div>
           </div>
+        </div>
+        <div class="row">
+          {{#each people}}
+            {{> personBlurb}}
+          {{/each}}
         </div>
       </div>
     </div>
-  </div><!-- end: portfolio-->
+  </section>
 </template>

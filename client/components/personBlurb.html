@@ -1,0 +1,16 @@
+<template name="personBlurb">
+  <div class="col-md-3">
+    <div class="profile">
+      <img src="{{pictureUrl}}" alt="">
+      <!-- TODO: fullname -->
+      <span class="name">{{firstName}} {{lastName}}</span>
+      <span class="position">{{position}}</span>
+      <span class="position">{{major}} | {{year}}</span>
+      <span class="description">{{bio}}</span>
+      <span class="contact">
+        <a href="{{twitterUrl}}"><i class="fa fa-twitter"></i></a>
+        <a href="{{linkedinUrl}}"><i class="fa fa-linkedin"></i></a>
+      </span>
+    </div>
+  </div>
+</template>

@@ -1,6 +1,23 @@
 
+function stylizeLinkedinButton() {
+  $('.linkedin-button > a').css('height', '50px');
+  $('.IN-widget, .IN-widget span').css('height', '20px');
+  $link = $('.IN-widget > span > span > a');
+  $link.html('sign in with linkedin')
+       .css('font-size', '13px')
+       .css('color', '#9d9d9d')
+       .css('line-height', '20px')
+       .hover(function() {
+          $(this).css('color', '#fff');
+        }, function() {
+          $(this).css('color', '#9d9d9d');
+        });
+  $('.linkedin-button').css('display', '');
+};
+
 onLinkedInLoad = function() {
   IN.Event.on(IN, 'auth', onLinkedInAuth);
+  stylizeLinkedinButton();
 };
 
 onLinkedInAuth = function() {
