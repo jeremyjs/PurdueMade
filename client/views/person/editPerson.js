@@ -1,4 +1,11 @@
 
+Template.editPerson.helpers({
+  major: function () {
+    console.log('this: ', this);
+    return this.major;
+  }
+});
+
 Template.editPerson.events({
 
   'click #save' : function(e) {

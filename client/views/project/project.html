@@ -1,55 +1,49 @@
 <template name="project">
   {{#with project}}
-  <!-- BEGIN SERVICE -->
-  <section id="services" class="page">
-    <div class="container">
-      <div class="content text-center">
-        <div class="heading">
-          <img src="{{pictureUrl}}" alt="{{name}}">
-          <h2>{{name}}</h2>
-          <p>{{description}}</p>
-        </div>
-      </div>
-    </div>
-    <div class="portfolio-info">
-      <a class="btn btn-color" href="{{Url}}">Visit Site</a>
-      <p>{{numFollowers}} Followers</p>
-      {{#if following}}
-        <a id="unfollow" class="btn btn-color3 active" href="javascript:void(0);">Following</a>
-      {{else}}
-        <a id="follow" class="btn btn-color3" href="javascript:void(0);">Follow</a>
-      {{/if}}
-      {{#if userIsAdmin}}
-        <a class="btn btn-color" href="/editProject/{{id}}">Edit Profile</a>
-      {{/if}}
-    </div>
-  </section>
-  <section id="about" class="page">
-    <div class="container">
-      <div class="content text-center">
-        <div class="heading">
-          <h2>Team</h2>
-        </div>
-        <div class="row">
-          {{#each team}}
-          <div class="col-md-3">
-            <div class="profile" >
-              <img src="{{pictureUrl}}" href="/people/{{id}}">
-              <!-- TODO: fullname -->
-              <span class="name">{{firstName}} {{lastName}}</span>
-              <span class="position">{{major}} | {{year}}</span>
-              <span class="position">{{position}}</span>
-              <span class="description">{{bio}}</span>
-              <span class="contact">
-                <a href="{{twitterUrl}}"><i class="fa fa-twitter"></i></a>
-                <a href="{{linkedinUrl}}"><i class="fa fa-linkedin"></i></a>
-              </span>
+  <div class="project-profile">
+    <section id="services" class="page">
+      <div class="container">
+        <div class="content">
+          <div class="heading">
+            <div class="row">
+              <div class="col-xs-4">
+                <img class="picture" src="{{pictureUrl}}" alt="{{name}}">
+                <span class="portfolio-actions text-center btn-group" role="group">
+                  <a class="btn btn-default" href="{{Url}}">Visit Site</a>
+                  {{#if following}}
+                    <a id="unfollow" class="btn btn-default active" href="javascript:void(0);">Following</a>
+                  {{else}}
+                    <a id="follow" class="btn btn-default" href="javascript:void(0);">Follow</a>
+                  {{/if}}
+                  {{#if userIsAdmin}}
+                    <a class="btn btn-default" href="/editProject/{{id}}">Edit Profile</a>
+                  {{/if}}
+                </span>
+              </div>
+              <div class="col-xs-8">
+                <h2 class="title">{{name}}</h2>
+                <h3 class="lead">{{numFollowers}} Followers</h3>
+                <p class="description">{{description}}</p>
+              </div>
             </div>
           </div>
-          {{/each}}
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+    <section id="about" class="page">
+      <div class="container">
+        <div class="content text-center">
+          <div class="heading">
+            <h2>Team</h2>
+          </div>
+          <div class="row">
+            {{#each team}}
+              {{> personBlurb}}
+            {{/each}}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
   {{/with}}
 </template>

@@ -22,7 +22,23 @@ Template.person.helpers({
     }
   },
 
-  'click #sendMessage' : function(){
+  hasProjects: function() {
+    person = People.findOne({id: Session.get('profileId')});
+    return person.projects && person.projects.length > 0;
+  },
+
+  myProfile: function() {
+    return Session.get('profileId') === Session.get('userId');
+  }
+
+});
+
+Template.person.events({
+  'click .project-btn' : function() {
+    Router.go('/projects/new');
+  },
+
+  'click #sendMessage' : function() {
     person = People.findOne({id: Session.get('profileId')});
     jsonString = JSON.stringify({
       "recipients": {
@@ -50,6 +66,4 @@ Template.person.helpers({
           .result(onMessageSent)
           .error(function error(e) { alert(e); });
   }
-
 });
-

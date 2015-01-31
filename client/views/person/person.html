@@ -36,7 +36,7 @@
         </div>
         <div class="row">
           <div class="col-md-12">
-            <div id="gallery">
+            <div id="gallery" class="project-gallery">
               <!-- <ul class="filters list-inline">
                 <li>
                   <a class="active" data-filter="*" href="#">All</a>
@@ -51,17 +51,24 @@
                   <a data-filter=".photography" href="#">Engineering</a>
                 </li>
               </ul> -->
-              <ul class="items popup-gallery list-unstyled clearfix">
-                {{#each projects}}
-                <!-- TODO: categories - graphic, photography, etc. -->
-                <li class="item web">
-                  <a href="/projects/{{id}}" title="{{name}}">
-                    <img src="{{pictureUrl}}" alt="{{name}}">
-                    <div class="overlay"><span>{{name}}</span></div>
-                  </a>
-                </li>
-                {{/each}}
-              </ul>
+              {{#if hasProjects}}
+                <ul class="items popup-gallery list-unstyled clearfix">
+                  {{#each projects}}
+                  <!-- TODO: categories - graphic, photography, etc. -->
+                  <li class="item web">
+                    <a href="/projects/{{id}}" title="{{name}}">
+                      <img src="{{pictureUrl}}" alt="{{name}}">
+                      <div class="overlay"><span>{{name}}</span></div>
+                    </a>
+                  </li>
+                  {{/each}}
+                </ul>
+              {{else}}
+                <h3 class="lead"><small>No projects to show off yet.</small></h3>
+              {{/if}}
+              {{#if myProfile}}
+                <button class="btn btn-default btn-lg project-btn">Add a Project</button>
+              {{/if}}
             </div>
           </div>
         </div>
